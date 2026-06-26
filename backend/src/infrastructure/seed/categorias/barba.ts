@@ -1,0 +1,61 @@
+import { ServicioData } from "../../../domain/entities/Servicio";
+
+export const BARBA: ServicioData[] = [
+  {
+    name: "Rasurado con Navaja",
+    description: "Afeitado clásico con navaja de barbero. Incluye toalla caliente, preparación con aceites, rasurado preciso en múltiples pasadas y loción post-afeitado.",
+    price: 18000,
+    category: "Barba",
+    imageUrls: ["/uploads/rasurado-navaja.jpg"],
+    cupos: 6,
+    duracionMinutos: 45,
+  },
+  {
+    name: "Perfilado de Barba",
+    description: "Definición y limpieza de los bordes de la barba con navaja y máquina. Perfecto para mantener el contorno de mejillas, cuello y bigote bien definido.",
+    price: 10000,
+    category: "Barba",
+    imageUrls: ["/uploads/perfilado-barba.jpg"],
+    cupos: 10,
+    duracionMinutos: 20,
+  },
+  {
+    name: "Arreglo y Diseño de Barba",
+    description: "Recorte, perfilado y diseño personalizado de la barba según la forma de tu rostro. Incluye hidratación con aceite de argán y aplicación de cera moldeadora.",
+    price: 16000,
+    category: "Barba",
+    imageUrls: ["/uploads/arreglo-barba.jpg"],
+    cupos: 7,
+    duracionMinutos: 30,
+  },
+  {
+    name: "Hidratación de Barba",
+    description: "Tratamiento intensivo de humectación con mascarilla de aceites naturales. Suaviza la barba, elimina resequedad y picazón, dejando el vello brillante y manejable.",
+    price: 14000,
+    category: "Barba",
+    imageUrls: ["/uploads/hidratacion-barba.webp"],
+    cupos: 8,
+    duracionMinutos: 20,
+  },
+  {
+    name: "Delineado con Navaja",
+    description: "Trazado de líneas perfectas en cuello, mejillas y contorno del bigote usando navaja recta. Para una apariencia impecable entre servicios completos.",
+    price: 10000,
+    category: "Barba",
+    imageUrls: ["/uploads/delineado-navaja.jpg"],
+    cupos: 8,
+    duracionMinutos: 25,
+  },
+  {
+    name: "Tinte de Barba",
+    description: "Coloración profesional de barba y bigote para cubrir canas o cambiar el tono. Colores naturales y semipermanentes para un resultado discreto o dramático.",
+    price: 25000,
+    category: "Barba",
+    imageUrls: ["/uploads/tinte-barba.jpg"],
+    cupos: 4,
+    duracionMinutos: 40,
+    customOptions: [
+      { name: "Tono", values: ["Negro", "Castaño oscuro", "Castaño medio", "Castaño claro", "Rubio"] },
+    ],
+  },
+];

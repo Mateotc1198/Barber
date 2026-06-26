@@ -1,0 +1,81 @@
+// Esquema de la base de datos de la barbería.
+// SQLite no soporta JSON nativo: customOptions se guarda como String JSON.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Servicio {
+  id              String    @id @default(uuid())
+  name            String
+  description     String
+  price           Float
+  category        String
+  imageUrls       String    @default("[]")
+  cupos           Int       @default(5)
+  duracionMinutos Int       @default(30)
+  customOptions   String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  reservas        Reserva[]
+}
+
+model Barbero {
+  id          String    @id @default(uuid())
+  nombre      String
+  fotoUrl     String    @default("")
+  descripcion String    @default("")
+  activo      Boolean   @default(true)
+  orden       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  reservas    Reserva[]
+}
+
+model Reserva {
+  id         String   @id @default(uuid())
+  servicioId String
+  servicio   Servicio @relation(fields: [servicioId], references: [id], onDelete: Cascade)
+  barberoId  String?
+  barbero    Barbero? @relation(fields: [barberoId], references: [id])
+  fecha      String
+  hora       String
+  nombre     String
+  telefono   String   @default("")
+  estado     String   @default("pendiente")
+  createdAt  DateTime @default(now())
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Categoria {
+  id           String   @id @default(uuid())
+  nombre       String   @unique
+  imagenBanner String   @default("")
+  orden        Int      @default(0)
+  updatedAt    DateTime @updatedAt
+}
+
+model ContactInfo {
+  id        String   @id @default(uuid())
+  nombre    String   @default("")
+  fotoUrl   String   @default("")
+  instagram String?
+  facebook  String?
+  whatsapp  String?
+  tiktok    String?
+  twitter   String?
+  gmail     String?
+  youtube   String?
+  updatedAt DateTime @updatedAt
+}
