@@ -16,93 +16,30 @@ Aplicación web completa para una barbería. Incluye catálogo de servicios, sis
 
 ---
 
-## Instalación
-
-### 1. Clonar el repositorio
+## Instalación y uso
 
 ```bash
 git clone https://github.com/Mateotc1198/Barber.git
 cd Barber
-```
-
-### 2. Configurar el backend
-
-```bash
-cd backend
-cp .env.example .env
-```
-
-Abrir `backend/.env` y completar los valores:
-
-```env
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="pon-aqui-una-cadena-larga-de-al-menos-32-caracteres"
-PORT=4000
-ORIGEN_FRONTEND="http://localhost:3000"
-URL_PUBLICA="http://localhost:4000"
-ADMIN_USUARIO="admin"
-ADMIN_PASSWORD="pon-tu-password-aqui"
-```
-
-Instalar dependencias, crear la base de datos y ejecutar el seed:
-
-```bash
 npm install
-npx prisma migrate deploy
-npx tsx prisma/seed.ts
-```
-
-### 3. Configurar el frontend
-
-```bash
-cd ../frontend
-cp .env.local.example .env.local
-```
-
-El archivo `.env.local` ya viene listo para desarrollo local:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:4000
-```
-
-Instalar dependencias:
-
-```bash
-npm install
-```
-
----
-
-## Correr la aplicación
-
-Necesitas dos terminales abiertas al mismo tiempo.
-
-**Terminal 1 — Backend:**
-
-```bash
-cd backend
+npm run setup
 npm run dev
 ```
 
-**Terminal 2 — Frontend:**
+La app queda disponible en **http://localhost:3000**
 
-```bash
-cd frontend
-npm run dev
-```
-
-La app queda disponible en `http://localhost:3000`
+> La base de datos, migraciones y datos de ejemplo se crean automáticamente al iniciar.
 
 ---
 
 ## Panel de administración
 
-Ir a `http://localhost:3000/admin/login`
+Ir a **http://localhost:3000/admin/login**
 
-Las credenciales son las que configuraste en `backend/.env`:
-
-- **Usuario:** valor de `ADMIN_USUARIO`
-- **Password:** valor de `ADMIN_PASSWORD`
+| Campo    | Valor      |
+|----------|------------|
+| Usuario  | `admin`    |
+| Password | `admin1234` |
 
 Desde el admin puedes:
 
@@ -131,4 +68,25 @@ Barber/
         ├── components/      # Componentes UI
         ├── infrastructure/  # Clientes API
         └── types/           # Tipos TypeScript
+```
+
+---
+
+## Variables de entorno (opcional)
+
+Solo necesarias si quieres cambiar la configuración por defecto.
+
+**`backend/.env`**
+```env
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="tu-secreto-seguro-de-al-menos-32-caracteres"
+PORT=4000
+ORIGEN_FRONTEND="http://localhost:3000"
+ADMIN_USUARIO="admin"
+ADMIN_PASSWORD="tu-password"
+```
+
+**`frontend/.env.local`**
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000
 ```

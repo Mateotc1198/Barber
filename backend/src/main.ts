@@ -1,6 +1,7 @@
 import "dotenv/config";
 import fs from "fs";
 import path from "path";
+import { execSync } from "child_process";
 import { clientePrisma } from "./infrastructure/db/clientePrisma";
 import { PrismaServicioRepository } from "./infrastructure/repositories/PrismaServicioRepository";
 import { PrismaReservaRepository } from "./infrastructure/repositories/PrismaReservaRepository";
@@ -11,6 +12,7 @@ import { PrismaCategoriaRepository } from "./infrastructure/repositories/PrismaC
 import { BcryptHashService } from "./infrastructure/security/BcryptHashService";
 import { JwtTokenService } from "./infrastructure/security/JwtTokenService";
 import { SEED_SERVICIOS } from "./infrastructure/seed/seedData";
+import { ejecutarSeed } from "./infrastructure/seed/ejecutarSeed";
 import { ServicioService } from "./application/ServicioService";
 import { AuthService } from "./application/AuthService";
 import { ContactInfoService } from "./application/ContactInfoService";
@@ -22,14 +24,26 @@ import { crearApp } from "./interfaces/http/app";
 const PORT = Number(process.env.PORT ?? 4000);
 const FRONTEND_ORIGIN = process.env.ORIGEN_FRONTEND ?? "http://localhost:3000";
 const PUBLIC_URL = process.env.URL_PUBLICA ?? `http://localhost:${PORT}`;
-const JWT_SECRET = process.env.JWT_SECRET;
+const IS_PROD = process.env.NODE_ENV === "production";
 
-if (!JWT_SECRET) throw new Error("Falta la variable de entorno JWT_SECRET");
+const JWT_SECRET = process.env.JWT_SECRET ?? (IS_PROD
+  ? undefined
+  : "dev-secret-barberia-para-uso-local-no-usar-en-prod");
+
+if (!JWT_SECRET) throw new Error("Falta la variable de entorno JWT_SECRET en producción");
 
 const uploadsDir = path.resolve(process.cwd(), "uploads");
 fs.mkdirSync(uploadsDir, { recursive: true });
 
 async function iniciar() {
+  // Migraciones automáticas al iniciar
+  console.log("Aplicando migraciones...");
+  execSync("npx prisma migrate deploy", { stdio: "inherit", cwd: process.cwd() });
+
+  // Seed automático (admin, servicios, contacto)
+  console.log("Ejecutando seed...");
+  await ejecutarSeed();
+
   const prismaServicioRepo = new PrismaServicioRepository(clientePrisma);
   const prismaBarberoRepo = new PrismaBarberoRepository(clientePrisma);
   const barberoService = new BarberoService(prismaBarberoRepo);

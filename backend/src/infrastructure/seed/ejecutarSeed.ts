@@ -7,10 +7,7 @@ const prisma = new PrismaClient();
 
 async function crearAdmin(): Promise<void> {
   const username = process.env.ADMIN_USUARIO ?? "admin";
-  const password = process.env.ADMIN_PASSWORD;
-  if (!password) {
-    throw new Error("ADMIN_PASSWORD no definido — requerido para crear el administrador");
-  }
+  const password = process.env.ADMIN_PASSWORD ?? "admin1234";
   const passwordHash = await new BcryptHashService().generate(password);
   await prisma.admin.upsert({
     where: { username },
