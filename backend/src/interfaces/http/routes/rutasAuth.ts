@@ -6,10 +6,11 @@ import { crearAutenticacion, NOMBRE_COOKIE_SESION } from "../middlewares/autenti
 const SESSION_DURATION_MS = 8 * 60 * 60 * 1000;
 
 function cookieOptions(): CookieOptions {
+  const isProd = process.env.NODE_ENV === "production";
   return {
     httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: isProd ? "none" : "lax",
+    secure: isProd,
     maxAge: SESSION_DURATION_MS,
     path: "/",
   };
