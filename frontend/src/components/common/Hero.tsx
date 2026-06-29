@@ -72,18 +72,6 @@ export function Hero() {
           </Link>
         </div>
 
-        {/* Nombre de la barbería como watermark */}
-        <p className="mt-8 text-white/20 text-xs tracking-[0.5em] uppercase font-light animate-fade-in-up" style={{ animationDelay: "0.5s" }}>
-          {NOMBRE_BARBERIA} · Est. 2024
-        </p>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 animate-scroll-bounce">
-        <p className="text-white/40 text-[10px] tracking-widest uppercase">Scroll</p>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5 text-white/40">
-          <path d="M19 9l-7 7-7-7" />
-        </svg>
       </div>
     </section>
   );
