@@ -13,7 +13,7 @@ Aplicación web completa para una barbería. Incluye catálogo de servicios, sis
 
 - Node.js 18+
 - npm
-- Base de datos PostgreSQL (Railway, Neon, Supabase o local)
+- Base de datos PostgreSQL
 
 ---
 
