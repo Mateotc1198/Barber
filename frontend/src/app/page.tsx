@@ -5,7 +5,6 @@ import { Encabezado } from "@/components/common/Encabezado";
 import { PieDePagina } from "@/components/common/PieDePagina";
 import { Hero } from "@/components/common/Hero";
 import { BotonTema } from "@/components/ui/BotonTema";
-import { SeccionCaracteristicas } from "@/components/common/SeccionCaracteristicas";
 import { SeccionCategorias } from "@/components/common/SeccionCategorias";
 import { SeccionHorarios } from "@/components/common/SeccionHorarios";
 import { CarruselServicios } from "@/components/services/CarruselServicios";
@@ -30,10 +29,7 @@ export default function HomePage() {
         {/* 1. Hero */}
         <Hero />
 
-        {/* 2. Características / por qué elegirnos */}
-        <SeccionCaracteristicas />
-
-        {/* 4. Categorías visuales */}
+        {/* 2. Categorías visuales */}
         <SeccionCategorias categorias={categorias} />
 
         {/* 5. Servicios por categoría */}
