@@ -9,7 +9,6 @@ import { SeccionStats } from "@/components/common/SeccionStats";
 import { SeccionCaracteristicas } from "@/components/common/SeccionCaracteristicas";
 import { SeccionCategorias } from "@/components/common/SeccionCategorias";
 import { SeccionHorarios } from "@/components/common/SeccionHorarios";
-import { SeccionCTA } from "@/components/common/SeccionCTA";
 import { CarruselServicios } from "@/components/services/CarruselServicios";
 import { GrillaServicios } from "@/components/services/GrillaServicios";
 import { EsqueletoGrilla } from "@/components/catalog/EsqueletoGrilla";
@@ -105,8 +104,6 @@ export default function HomePage() {
         {/* 6. Horarios */}
         <SeccionHorarios />
 
-        {/* 7. CTA final */}
-        <SeccionCTA />
       </main>
 
       <PieDePagina />
