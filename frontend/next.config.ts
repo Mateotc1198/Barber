@@ -5,10 +5,8 @@ const nextConfig: NextConfig = {
   devIndicators: false,
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "**" },
       { protocol: "http", hostname: "localhost" },
-      { protocol: "https", hostname: "*.up.railway.app" },
     ],
   },
   async rewrites() {
