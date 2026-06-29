@@ -1,6 +1,7 @@
 import multer from "multer";
 import crypto from "crypto";
 import fs from "fs";
+import { v2 as cloudinary } from "cloudinary";
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { DomainError } from "../../domain/errors/DomainErrors";
 
@@ -25,13 +26,29 @@ const MAGIC_BYTES: Record<string, (b: Buffer) => boolean> = {
 
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
-export function crearUploadImagenes(directory: string) {
-  const storage = multer.diskStorage({
-    destination: directory,
-    filename: (_req, file, cb) => {
-      cb(null, crypto.randomUUID() + EXTENSION_BY_MIME[file.mimetype]);
-    },
+const USE_CLOUDINARY = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET
+);
+
+if (USE_CLOUDINARY) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
   });
+}
+
+export function crearUploadImagenes(directory: string) {
+  const storage = USE_CLOUDINARY
+    ? multer.memoryStorage()
+    : multer.diskStorage({
+        destination: directory,
+        filename: (_req, file, cb) => {
+          cb(null, crypto.randomUUID() + EXTENSION_BY_MIME[file.mimetype]);
+        },
+      });
 
   return multer({
     storage,
@@ -49,25 +66,27 @@ export function crearUploadImagenes(directory: string) {
 export function crearValidacionMagicBytes(): RequestHandler {
   return (req: Request, _res: Response, next: NextFunction): void => {
     const file = req.file;
-    if (!file) {
-      next();
-      return;
-    }
+    if (!file) { next(); return; }
 
     let buf: Buffer;
-    try {
-      const fd = fs.openSync(file.path, "r");
-      buf = Buffer.alloc(12);
-      fs.readSync(fd, buf, 0, 12, 0);
-      fs.closeSync(fd);
-    } catch {
-      next(new DomainError("No se pudo leer el archivo subido", "FILE_READ_ERROR"));
-      return;
+
+    if (file.buffer) {
+      buf = file.buffer.slice(0, 12);
+    } else {
+      try {
+        const fd = fs.openSync(file.path, "r");
+        buf = Buffer.alloc(12);
+        fs.readSync(fd, buf, 0, 12, 0);
+        fs.closeSync(fd);
+      } catch {
+        next(new DomainError("No se pudo leer el archivo subido", "FILE_READ_ERROR"));
+        return;
+      }
     }
 
     const check = MAGIC_BYTES[file.mimetype];
     if (!check || !check(buf)) {
-      try { fs.unlinkSync(file.path); } catch { /* ignorar */ }
+      if (file.path) { try { fs.unlinkSync(file.path); } catch { /* ignorar */ } }
       next(new DomainError("El contenido del archivo no coincide con su tipo declarado", "INVALID_IMAGE_CONTENT"));
       return;
     }
@@ -75,3 +94,18 @@ export function crearValidacionMagicBytes(): RequestHandler {
     next();
   };
 }
+
+export async function subirImagenCloudinary(buffer: Buffer, mimetype: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "barberia", resource_type: "image", format: EXTENSION_BY_MIME[mimetype]?.slice(1) },
+      (error, result) => {
+        if (error || !result) return reject(error ?? new Error("Sin resultado de Cloudinary"));
+        resolve(result.secure_url);
+      }
+    );
+    stream.end(buffer);
+  });
+}
+
+export { USE_CLOUDINARY };

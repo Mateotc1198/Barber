@@ -1,1 +1,1 @@
-export { crearUploadImagenes, crearValidacionMagicBytes } from "../../../infrastructure/upload/configMulter";
+export { crearUploadImagenes, crearValidacionMagicBytes, subirImagenCloudinary, USE_CLOUDINARY } from "../../../infrastructure/upload/configMulter";
