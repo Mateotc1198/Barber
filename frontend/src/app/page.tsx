@@ -12,7 +12,7 @@ import { GrillaServicios } from "@/components/services/GrillaServicios";
 import { EsqueletoGrilla } from "@/components/catalog/EsqueletoGrilla";
 import { useServicios } from "@/state/contextoServicios";
 
-const MAX_CARRUSEL = 2;
+const MAX_CARRUSEL = 3;
 
 export default function HomePage() {
   const { servicios, categorias, cargando } = useServicios();
