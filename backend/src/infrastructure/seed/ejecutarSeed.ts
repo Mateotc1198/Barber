@@ -11,7 +11,7 @@ async function crearAdmin(): Promise<void> {
   const passwordHash = await new BcryptHashService().generate(password);
   await prisma.admin.upsert({
     where: { username },
-    update: {},
+    update: { passwordHash },
     create: { username, passwordHash },
   });
   console.log(`Admin "${username}" listo`);
