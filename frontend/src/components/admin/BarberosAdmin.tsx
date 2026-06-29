@@ -132,7 +132,9 @@ export function BarberosAdmin() {
               {b.fotoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={b.fotoUrl} alt={b.nombre} className="w-full h-full object-cover rounded-full" />
-              ) : "✂"}
+              ) : (
+                <span className="text-sm font-bold text-amber-600">{b.nombre.charAt(0).toUpperCase()}</span>
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-zinc-900 dark:text-zinc-100 text-sm">{b.nombre}</p>

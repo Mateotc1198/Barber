@@ -70,7 +70,9 @@ export function FormularioContacto({ inicial, onActualizado }: Props) {
           {form.fotoUrl ? (
             <Image src={form.fotoUrl} alt="Foto" fill className="object-cover" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-3xl">✂</div>
+            <div className="w-full h-full flex items-center justify-center text-lg font-bold text-zinc-400">
+              {form.nombre?.charAt(0)?.toUpperCase() || "B"}
+            </div>
           )}
         </div>
         <div className="flex-1">

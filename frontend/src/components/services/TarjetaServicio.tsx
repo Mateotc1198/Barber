@@ -23,8 +23,8 @@ export function TarjetaServicio({ servicio, popular = false }: Props) {
             className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-4xl text-zinc-300 dark:text-zinc-600">
-            ✂
+          <div className="absolute inset-0 flex items-center justify-center text-sm text-zinc-400 dark:text-zinc-600">
+            Sin imagen
           </div>
         )}
 
@@ -39,7 +39,7 @@ export function TarjetaServicio({ servicio, popular = false }: Props) {
         <div className="absolute top-3 left-3 right-3 flex justify-between items-start">
           {popular && (
             <span className="text-[10px] font-black tracking-widest uppercase bg-amber-500 text-white px-2.5 py-1 rounded-full shadow-lg">
-              ★ Popular
+              Popular
             </span>
           )}
           <span className="ml-auto text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm bg-black/40 text-white/90">

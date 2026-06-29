@@ -41,7 +41,7 @@ export function VistaServicio({ servicio, relacionados }: Props) {
               <span className="text-3xl font-bold text-amber-600 dark:text-amber-400">
                 ${servicio.precio.toLocaleString("es-CO")}
               </span>
-              <span className="text-sm text-zinc-500">⏱ {servicio.duracionMinutos} min</span>
+              <span className="text-sm text-zinc-500">{servicio.duracionMinutos} min</span>
               <span className={`text-sm font-medium ${servicio.disponible ? "text-green-600" : "text-red-500"}`}>
                 {servicio.disponible ? "Disponible" : "Sin disponibilidad"}
               </span>
@@ -60,7 +60,7 @@ export function VistaServicio({ servicio, relacionados }: Props) {
               disabled={!servicio.disponible}
               className="mt-6 w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 text-white font-black text-base transition-all disabled:cursor-not-allowed cursor-pointer"
             >
-              📅 Reservar cita
+              Reservar cita
             </button>
           </div>
         </div>

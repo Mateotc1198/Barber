@@ -63,7 +63,6 @@ export function Hero() {
             className="group px-8 py-3.5 rounded-full bg-amber-600 hover:bg-amber-500 text-white font-bold text-sm shadow-[0_0_24px_rgba(217,119,6,0.5)] hover:shadow-[0_0_32px_rgba(217,119,6,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 tracking-wide"
           >
             Ver Servicios
-            <span className="inline-block ml-1 transition-transform group-hover:translate-x-1">→</span>
           </Link>
           <Link
             href="/contacto"

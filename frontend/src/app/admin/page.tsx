@@ -69,7 +69,7 @@ export default function AdminPage() {
   const categoriaNames = [...new Set(servicios.map((s) => s.categoria))];
 
   const TABS: { key: Tab; label: string }[] = [
-    { key: "agenda", label: "📅 Agenda" },
+    { key: "agenda", label: "Agenda" },
     { key: "barberos", label: "Barberos" },
     { key: "servicios", label: "Servicios" },
     { key: "contacto", label: "Contacto" },
@@ -83,7 +83,7 @@ export default function AdminPage() {
       <header className="bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800 px-[var(--page-padding-x)] py-4">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div>
-            <p className="font-bold text-lg text-zinc-900 dark:text-zinc-100">✂ {NOMBRE_BARBERIA}</p>
+            <p className="font-bold text-lg text-zinc-900 dark:text-zinc-100">{NOMBRE_BARBERIA}</p>
             <p className="text-xs text-zinc-500">Panel de administración</p>
           </div>
           <button

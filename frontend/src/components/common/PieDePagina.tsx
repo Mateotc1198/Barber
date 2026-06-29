@@ -11,7 +11,7 @@ export function PieDePagina() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <p className="text-white font-black text-xl tracking-widest mb-2">✂ {NOMBRE_BARBERIA}</p>
+            <p className="text-white font-black text-xl tracking-widest mb-2">{NOMBRE_BARBERIA}</p>
             <p className="text-sm text-zinc-400 mb-5 leading-relaxed">{ESLOGAN_BARBERIA}</p>
             <div className="flex gap-3">
               <a
@@ -100,7 +100,7 @@ export function PieDePagina() {
             &copy; {year} {NOMBRE_BARBERIA}. Todos los derechos reservados.
           </p>
           <p className="text-xs text-zinc-700">
-            Hecho con ♥ para los que cuidan su imagen
+            Hecho con dedicacion para los que cuidan su imagen
           </p>
         </div>
       </div>

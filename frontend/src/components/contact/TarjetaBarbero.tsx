@@ -16,8 +16,8 @@ export function TarjetaBarbero({ barbero }: Props) {
             className="w-full h-full rounded-full object-cover ring-4 ring-amber-500/20"
           />
         ) : (
-          <div className="w-full h-full rounded-full bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center text-3xl">
-            ✂
+          <div className="w-full h-full rounded-full bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center text-xl font-bold text-amber-600">
+            {barbero.nombre.charAt(0).toUpperCase()}
           </div>
         )}
       </div>

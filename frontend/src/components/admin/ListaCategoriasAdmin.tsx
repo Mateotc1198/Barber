@@ -42,7 +42,7 @@ export function ListaCategoriasAdmin({ categorias, onActualizar }: Props) {
               {cat.imagenBanner ? (
                 <Image src={cat.imagenBanner} alt={cat.nombre} fill className="object-cover" />
               ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-2xl text-zinc-300">✂</div>
+                <div className="absolute inset-0 flex items-center justify-center text-xs text-zinc-400">Sin imagen</div>
               )}
             </div>
             <p className="font-semibold text-sm text-zinc-900 dark:text-zinc-100 mb-2">{cat.nombre}</p>

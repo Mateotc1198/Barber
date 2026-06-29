@@ -34,7 +34,7 @@ export function Encabezado() {
           href="/"
           className="font-bold text-lg tracking-widest text-zinc-900 dark:text-white hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
         >
-          ✂ {NOMBRE_BARBERIA}
+          {NOMBRE_BARBERIA}
         </Link>
 
         {/* Nav desktop */}

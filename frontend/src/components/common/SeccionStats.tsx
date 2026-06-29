@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 
 const STATS = [
-  { valor: "5+", label: "Años de experiencia", icono: "✂" },
-  { valor: "1K+", label: "Clientes satisfechos", icono: "😊" },
-  { valor: "4.9★", label: "Calificación promedio", icono: "⭐" },
-  { valor: "22", label: "Servicios disponibles", icono: "📋" },
+  { valor: "5+", label: "Años de experiencia" },
+  { valor: "1K+", label: "Clientes satisfechos" },
+  { valor: "4.9", label: "Calificación promedio" },
+  { valor: "22", label: "Servicios disponibles" },
 ];
 
 export function SeccionStats() {
@@ -34,7 +34,6 @@ export function SeccionStats() {
             className={`text-center transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
             style={{ transitionDelay: `${i * 100}ms` }}
           >
-            <p className="text-3xl mb-1">{stat.icono}</p>
             <p className="text-4xl font-black text-amber-400 mb-1 tracking-tight">{stat.valor}</p>
             <p className="text-xs text-zinc-400 tracking-wide uppercase">{stat.label}</p>
           </div>

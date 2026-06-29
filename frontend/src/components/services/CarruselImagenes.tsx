@@ -16,8 +16,8 @@ export function CarruselImagenes({ imagenes, nombre }: Props) {
 
   if (imagenes.length === 0) {
     return (
-      <div className="aspect-[4/3] rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-6xl text-zinc-300">
-        ✂
+      <div className="aspect-[4/3] rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-sm text-zinc-400">
+        Sin imagen
       </div>
     );
   }

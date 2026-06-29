@@ -65,7 +65,7 @@ export default function HomePage() {
                         href={`/servicios?categoria=${encodeURIComponent(cat.nombre)}`}
                         className="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 flex-shrink-0"
                       >
-                        Ver todos →
+                        Ver todos
                       </Link>
                     </div>
                     <CarruselServicios servicios={items} />
@@ -91,7 +91,7 @@ export default function HomePage() {
                         href={`/servicios?categoria=${encodeURIComponent(cat.nombre)}`}
                         className="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 flex-shrink-0"
                       >
-                        Ver todos →
+                        Ver todos
                       </Link>
                     </div>
                     <GrillaServicios servicios={items} />

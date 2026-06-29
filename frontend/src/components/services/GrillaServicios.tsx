@@ -9,7 +9,6 @@ export function GrillaServicios({ servicios }: Props) {
   if (servicios.length === 0) {
     return (
       <div className="text-center py-20 text-zinc-400 dark:text-zinc-500">
-        <p className="text-4xl mb-4">✂</p>
         <p className="text-lg font-medium">Sin servicios disponibles</p>
       </div>
     );

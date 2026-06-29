@@ -15,7 +15,6 @@ export default function ErrorPage({ error, reset }: Props) {
   return (
     <div className="min-h-screen flex items-center justify-center px-6 text-center">
       <div>
-        <p className="text-5xl mb-4">✂</p>
         <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">Algo salió mal</h2>
         <p className="text-sm text-zinc-500 mb-6">{error.message}</p>
         <button

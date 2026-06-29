@@ -30,7 +30,6 @@ export default function LoginPage() {
     <main className="min-h-screen flex items-center justify-center px-4 bg-zinc-50 dark:bg-zinc-950">
       <div className="w-full max-w-sm bg-white dark:bg-zinc-900 rounded-3xl shadow-xl p-8">
         <div className="text-center mb-8">
-          <p className="text-3xl mb-2">✂</p>
           <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">{NOMBRE_BARBERIA}</h1>
           <p className="text-sm text-zinc-500 mt-1">Administración</p>
         </div>

@@ -95,8 +95,7 @@ export function PaginaReservar({ servicio, barberos }: Props) {
     const [anio, mes, dia] = fechaISO(fechaSeleccionada).split("-");
     return (
       <div className="text-center py-12">
-        <div className="text-6xl mb-4">✅</div>
-        <h2 className="text-2xl font-black text-zinc-900 dark:text-zinc-100 mb-2">¡Cita confirmada!</h2>
+        <h2 className="text-2xl font-black text-zinc-900 dark:text-zinc-100 mb-2">Cita confirmada</h2>
         <div className="bg-zinc-50 dark:bg-zinc-800 rounded-2xl p-6 mt-6 mb-8 text-left space-y-2 text-sm">
           <p><span className="text-zinc-400">Servicio:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{servicio.nombre}</span></p>
           <p><span className="text-zinc-400">Barbero:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{barberoSeleccionado.nombre}</span></p>
@@ -121,7 +120,7 @@ export function PaginaReservar({ servicio, barberos }: Props) {
             {servicio.duracionMinutos} min · ${servicio.precio.toLocaleString("es-CO")} COP
           </p>
         </div>
-        <span className="text-amber-600 dark:text-amber-400 font-black text-xl">✂</span>
+        <span className="text-amber-600 dark:text-amber-400 font-black text-xl">+</span>
       </div>
 
       {/* PASO 1: Elegir barbero */}
@@ -147,11 +146,13 @@ export function PaginaReservar({ servicio, barberos }: Props) {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={b.fotoUrl} alt={b.nombre} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-2xl">✂</div>
+                    <div className="w-full h-full flex items-center justify-center text-lg font-bold text-amber-600">
+                      {b.nombre.charAt(0).toUpperCase()}
+                    </div>
                   )}
                   {sel && (
                     <div className="absolute inset-0 bg-amber-500/20 flex items-center justify-center">
-                      <span className="text-amber-600 font-black text-lg">✓</span>
+                      <span className="text-amber-600 font-black text-sm">Sel.</span>
                     </div>
                   )}
                 </div>
@@ -257,9 +258,9 @@ export function PaginaReservar({ servicio, barberos }: Props) {
           )}
 
           <div className="bg-zinc-50 dark:bg-zinc-800 rounded-2xl p-4 mb-4 text-sm space-y-1">
-            <p className="text-zinc-500">✂ {barberoSeleccionado.nombre}</p>
-            <p className="text-zinc-500">📅 {DIAS[fechaSeleccionada.getDay()]} {fechaSeleccionada.getDate()} {MESES[fechaSeleccionada.getMonth()]}</p>
-            <p className="text-zinc-500">🕐 {formatHora(slotSeleccionado)}</p>
+            <p className="text-zinc-500">Barbero: {barberoSeleccionado.nombre}</p>
+            <p className="text-zinc-500">Fecha: {DIAS[fechaSeleccionada.getDay()]} {fechaSeleccionada.getDate()} {MESES[fechaSeleccionada.getMonth()]}</p>
+            <p className="text-zinc-500">Hora: {formatHora(slotSeleccionado)}</p>
           </div>
 
           <button

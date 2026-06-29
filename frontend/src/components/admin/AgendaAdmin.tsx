@@ -124,7 +124,6 @@ export function AgendaAdmin() {
         </div>
       ) : activas.length === 0 ? (
         <div className="text-center py-16 text-zinc-400 dark:text-zinc-600">
-          <p className="text-4xl mb-3">📅</p>
           <p className="font-semibold">Sin reservas para este día</p>
         </div>
       ) : (

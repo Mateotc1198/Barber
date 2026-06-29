@@ -8,12 +8,6 @@ const BANNERS_DEFAULT: Record<string, string> = {
   "Color & Estilos": "/uploads/color-estilos.jpg",
 };
 
-const ICONOS: Record<string, string> = {
-  Cortes: "✂",
-  Barba: "🧔",
-  "Color & Estilos": "🎨",
-};
-
 interface Props {
   categorias: Categoria[];
 }
@@ -52,11 +46,9 @@ export function SeccionCategorias({ categorias }: Props) {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-xl mb-1">{ICONOS[cat.nombre] ?? "✂"}</p>
                   <p className="text-white font-black text-lg leading-tight">{cat.nombre}</p>
-                  <p className="text-white/60 text-xs mt-1 flex items-center gap-1 group-hover:text-amber-300 transition-colors">
+                  <p className="text-white/60 text-xs mt-1 group-hover:text-amber-300 transition-colors">
                     Ver servicios
-                    <span className="transition-transform group-hover:translate-x-1 inline-block">→</span>
                   </p>
                 </div>
               </Link>
