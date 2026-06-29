@@ -1,12 +1,9 @@
-// Esquema de la base de datos de la barbería.
-// SQLite no soporta JSON nativo: customOptions se guarda como String JSON.
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

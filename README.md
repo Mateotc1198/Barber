@@ -5,7 +5,7 @@ Aplicación web completa para una barbería. Incluye catálogo de servicios, sis
 ## Tecnologías
 
 - **Frontend:** Next.js 16 + TailwindCSS 4
-- **Backend:** Express + TypeScript + Prisma + SQLite
+- **Backend:** Express + TypeScript + Prisma + PostgreSQL
 
 ---
 
@@ -13,10 +13,19 @@ Aplicación web completa para una barbería. Incluye catálogo de servicios, sis
 
 - Node.js 18+
 - npm
+- Base de datos PostgreSQL (Railway, Neon, Supabase o local)
 
 ---
 
 ## Instalación y uso
+
+1. Clonar el repositorio y crear el archivo `backend/.env` con la URL de tu base de datos:
+
+```env
+DATABASE_URL="postgresql://usuario:password@host:5432/nombre_db"
+```
+
+2. Instalar dependencias e iniciar:
 
 ```bash
 git clone https://github.com/Mateotc1198/Barber.git
@@ -28,7 +37,7 @@ npm run dev
 
 La app queda disponible en **http://localhost:3000**
 
-> La base de datos, migraciones y datos de ejemplo se crean automáticamente al iniciar.
+> Las migraciones y datos de ejemplo se aplican automáticamente al iniciar.
 
 ---
 
@@ -78,7 +87,7 @@ Solo necesarias si quieres cambiar la configuración por defecto.
 
 **`backend/.env`**
 ```env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://usuario:password@host:5432/nombre_db"
 JWT_SECRET="tu-secreto-seguro-de-al-menos-32-caracteres"
 PORT=4000
 ORIGEN_FRONTEND="http://localhost:3000"
