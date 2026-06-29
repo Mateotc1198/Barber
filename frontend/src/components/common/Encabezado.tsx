@@ -55,7 +55,8 @@ export function Encabezado() {
               </svg>
             </button>
             {catalogoAbierto && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-100 dark:border-zinc-800 p-2">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 w-48 pt-2">
+              <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-100 dark:border-zinc-800 p-2">
                 <Link href="/servicios" className="block px-4 py-2 text-sm rounded-xl text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:text-amber-600 transition-colors">
                   Todos los servicios
                 </Link>
@@ -68,6 +69,7 @@ export function Encabezado() {
                     {c.nombre}
                   </Link>
                 ))}
+              </div>
               </div>
             )}
           </div>
