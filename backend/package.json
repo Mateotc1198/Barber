@@ -2,12 +2,12 @@
   "name": "barberia-backend",
   "version": "1.0.0",
   "description": "API de barbería — Express + TypeScript + Prisma (SQLite)",
-  "main": "dist/main.js",
+  "main": "dist/src/main.js",
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "tsx watch src/main.ts",
     "build": "tsc",
-    "start": "node dist/main.js",
+    "start": "node dist/src/main.js",
     "lint": "tsc --noEmit",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts"
