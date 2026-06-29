@@ -27,7 +27,7 @@ export function SeccionCategorias({ categorias }: Props) {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
           {categorias.map((cat) => {
             const banner = cat.imagenBanner || BANNERS_DEFAULT[cat.nombre] || "";
             return (
