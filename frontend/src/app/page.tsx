@@ -5,7 +5,6 @@ import { Encabezado } from "@/components/common/Encabezado";
 import { PieDePagina } from "@/components/common/PieDePagina";
 import { Hero } from "@/components/common/Hero";
 import { BotonTema } from "@/components/ui/BotonTema";
-import { SeccionStats } from "@/components/common/SeccionStats";
 import { SeccionCaracteristicas } from "@/components/common/SeccionCaracteristicas";
 import { SeccionCategorias } from "@/components/common/SeccionCategorias";
 import { SeccionHorarios } from "@/components/common/SeccionHorarios";
@@ -31,10 +30,7 @@ export default function HomePage() {
         {/* 1. Hero */}
         <Hero />
 
-        {/* 2. Stats strip */}
-        <SeccionStats />
-
-        {/* 3. Características / por qué elegirnos */}
+        {/* 2. Características / por qué elegirnos */}
         <SeccionCaracteristicas />
 
         {/* 4. Categorías visuales */}
