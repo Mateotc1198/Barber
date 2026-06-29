@@ -134,8 +134,8 @@ export function AgendaAdmin() {
               key={r.id}
               className="flex items-center gap-4 bg-white dark:bg-zinc-900 rounded-2xl px-5 py-4 shadow-sm border border-zinc-100 dark:border-zinc-800"
             >
-              <div className="text-center min-w-[52px]">
-                <p className="text-lg font-black text-amber-600 dark:text-amber-400">{formatHora(r.hora)}</p>
+              <div className="text-center flex-shrink-0">
+                <p className="text-base font-black text-amber-600 dark:text-amber-400">{formatHora(r.hora)}</p>
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-bold text-zinc-900 dark:text-zinc-100 truncate">{r.nombre}</p>
@@ -145,19 +145,21 @@ export function AgendaAdmin() {
                   {r.telefono && <span className="ml-2">· {r.telefono}</span>}
                 </p>
               </div>
-              <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                r.estado === "pendiente"
-                  ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
-                  : "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
-              }`}>
-                {r.estado}
-              </span>
-              <button
-                onClick={() => void cancelar(r.id)}
-                className="text-xs text-red-500 hover:text-red-700 font-semibold transition-colors cursor-pointer"
-              >
-                Cancelar
-              </button>
+              <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1 sm:gap-3 flex-shrink-0">
+                <span className={`text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap ${
+                  r.estado === "pendiente"
+                    ? "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400"
+                    : "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400"
+                }`}>
+                  {r.estado}
+                </span>
+                <button
+                  onClick={() => void cancelar(r.id)}
+                  className="text-xs text-red-500 hover:text-red-700 font-semibold transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
           ))}
         </div>

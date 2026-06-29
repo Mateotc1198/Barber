@@ -96,12 +96,12 @@ export default function AdminPage() {
       </header>
 
       <div className="max-w-6xl mx-auto px-[var(--page-padding-x)] pt-8">
-        <div className="flex gap-2 mb-8">
+        <div className="flex gap-2 mb-8 overflow-x-auto pb-1 no-scrollbar">
           {TABS.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`px-5 py-2 rounded-full text-sm font-semibold transition-colors cursor-pointer ${
+              className={`flex-shrink-0 px-5 py-2 rounded-full text-sm font-semibold transition-colors cursor-pointer ${
                 tab === t.key
                   ? "bg-amber-600 text-white"
                   : "bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
