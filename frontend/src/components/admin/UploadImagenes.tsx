@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Image from "next/image";
 import { imagenesApi } from "@/infrastructure/api/imagenesApi";
 
 interface Props {
@@ -46,7 +45,8 @@ export function UploadImagenes({ urls, onChange }: Props) {
         <div className="flex gap-2 flex-wrap">
           {urls.map((url, i) => (
             <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden group">
-              <Image src={url} alt={`Imagen ${i + 1}`} fill className="object-cover" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={url} alt={`Imagen ${i + 1}`} className="w-full h-full object-cover" />
               <button
                 type="button"
                 onClick={() => eliminar(i)}
