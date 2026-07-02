@@ -14,6 +14,7 @@
 
   /* --- Layout --- */
   --page-padding-x: clamp(1rem, 4vw, 4rem);
+  --page-max-width: 1920px;
   --header-height: 3.5rem;
   --hero-height: clamp(480px, 82vh, 820px);
 
