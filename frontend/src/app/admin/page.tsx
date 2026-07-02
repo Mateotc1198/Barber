@@ -81,7 +81,7 @@ export default function AdminPage() {
       <BotonTema />
 
       <header className="bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800 px-[var(--page-padding-x)] py-4">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <div className="max-w-[var(--page-max-width)] mx-auto flex justify-between items-center">
           <div>
             <p className="font-bold text-lg text-zinc-900 dark:text-zinc-100">{NOMBRE_BARBERIA}</p>
             <p className="text-xs text-zinc-500">Panel de administración</p>
@@ -95,7 +95,7 @@ export default function AdminPage() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto px-[var(--page-padding-x)] pt-8">
+      <div className="max-w-[var(--page-max-width)] mx-auto px-[var(--page-padding-x)] pt-8">
         <div className="flex gap-2 mb-8 overflow-x-auto pb-1 no-scrollbar">
           {TABS.map((t) => (
             <button
