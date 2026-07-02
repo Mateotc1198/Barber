@@ -17,7 +17,7 @@ export function SeccionCategorias({ categorias }: Props) {
 
   return (
     <section className="py-20 px-[var(--page-padding-x)] bg-zinc-50 dark:bg-zinc-900/30">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-[var(--page-max-width)] mx-auto">
         <div className="text-center mb-12">
           <p className="text-xs font-bold tracking-[0.3em] uppercase text-amber-600 dark:text-amber-400 mb-3">
             Explorar
@@ -27,7 +27,7 @@ export function SeccionCategorias({ categorias }: Props) {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {categorias.map((cat) => {
             const banner = cat.imagenBanner || BANNERS_DEFAULT[cat.nombre] || "";
             return (
@@ -41,6 +41,7 @@ export function SeccionCategorias({ categorias }: Props) {
                     src={banner}
                     alt={cat.nombre}
                     fill
+                    sizes="(max-width: 640px) 50vw, 33vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                 )}
