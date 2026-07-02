@@ -33,7 +33,7 @@ export default function HomePage() {
         <SeccionCategorias categorias={categorias} />
 
         {/* 5. Servicios por categoría */}
-        <div className="px-[var(--page-padding-x)] py-16 max-w-7xl mx-auto space-y-16">
+        <div className="px-[var(--page-padding-x)] py-16 max-w-[var(--page-max-width)] mx-auto space-y-16">
           {cargando ? (
             <EsqueletoGrilla cantidad={8} />
           ) : (
