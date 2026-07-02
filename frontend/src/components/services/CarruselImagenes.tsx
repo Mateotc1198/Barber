@@ -29,6 +29,7 @@ export function CarruselImagenes({ imagenes, nombre }: Props) {
           src={imagenes[activa]}
           alt={`${nombre} — imagen ${activa + 1}`}
           fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
           className="object-cover"
           priority={activa === 0}
         />
@@ -64,7 +65,7 @@ export function CarruselImagenes({ imagenes, nombre }: Props) {
                 i === activa ? "border-amber-500" : "border-transparent"
               }`}
             >
-              <Image src={url} alt={`Miniatura ${i + 1}`} fill className="object-cover" />
+              <Image src={url} alt={`Miniatura ${i + 1}`} fill sizes="64px" className="object-cover" />
             </button>
           ))}
         </div>
