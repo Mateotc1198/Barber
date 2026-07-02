@@ -7,7 +7,7 @@ export function PieDePagina() {
   return (
     <footer className="bg-zinc-950 text-zinc-400">
       {/* Main footer */}
-      <div className="max-w-6xl mx-auto px-[var(--page-padding-x)] pt-16 pb-10">
+      <div className="max-w-[var(--page-max-width)] mx-auto px-[var(--page-padding-x)] pt-16 pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="lg:col-span-1">
