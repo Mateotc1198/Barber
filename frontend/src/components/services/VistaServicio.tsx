@@ -16,7 +16,7 @@ export function VistaServicio({ servicio, relacionados }: Props) {
   const router = useRouter();
   return (
     <main className="min-h-screen pt-[var(--header-height)] pb-16 px-[var(--page-padding-x)]">
-      <div className="max-w-6xl mx-auto mt-8">
+      <div className="max-w-[var(--page-max-width)] mx-auto mt-8">
         <Link
           href="/servicios"
           className="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-amber-600 transition-colors mb-6"
