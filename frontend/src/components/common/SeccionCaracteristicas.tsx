@@ -59,7 +59,7 @@ export function SeccionCaracteristicas() {
       ref={ref}
       className="py-20 px-[var(--page-padding-x)]"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-[var(--page-max-width)] mx-auto">
         {/* Header */}
         <div className="text-center mb-14">
           <p className="text-xs font-bold tracking-[0.3em] uppercase text-amber-600 dark:text-amber-400 mb-3">
