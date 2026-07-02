@@ -43,7 +43,7 @@ function Catalogo() {
       <Encabezado />
       <BotonTema />
       <main className="min-h-screen pt-[var(--header-height)] pb-16 px-[var(--page-padding-x)]">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-[var(--page-max-width)] mx-auto">
           <div className="py-10">
             <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">Nuestros Servicios</h1>
             <p className="text-zinc-500 dark:text-zinc-400 text-sm">
