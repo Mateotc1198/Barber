@@ -101,7 +101,7 @@ export function AgendaAdmin() {
             <button
               key={fechaISO(d)}
               onClick={() => setFechaSeleccionada(d)}
-              className={`flex-shrink-0 flex flex-col items-center py-3 px-4 rounded-2xl border-2 transition-all text-sm font-semibold ${
+              className={`flex-shrink-0 flex flex-col items-center py-3 px-4 rounded-2xl border-2 transition-colors text-sm font-semibold ${
                 seleccionado
                   ? "border-amber-500 bg-amber-500 text-white"
                   : "border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-400"
