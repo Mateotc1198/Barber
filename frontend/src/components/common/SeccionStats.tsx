@@ -31,7 +31,7 @@ export function SeccionStats() {
         {STATS.map((stat, i) => (
           <div
             key={stat.label}
-            className={`text-center transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+            className={`text-center transition-[opacity,transform] duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
             style={{ transitionDelay: `${i * 100}ms` }}
           >
             <p className="text-4xl font-black text-amber-400 mb-1 tracking-tight">{stat.valor}</p>
