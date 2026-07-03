@@ -8,6 +8,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
   --color-zinc-950: var(--graphite-950);
   --color-zinc-900: var(--graphite-900);
   --color-zinc-800: var(--graphite-800);
@@ -25,11 +26,6 @@ body {
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulseGlow {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4); }
-  50% { transform: scale(1.06); box-shadow: 0 0 16px 6px rgba(217, 119, 6, 0.2); }
 }
 
 @keyframes float {
@@ -57,13 +53,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
 .animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.animate-pulse-glow { animation: pulseGlow 2s infinite ease-in-out; }
 .animate-float { animation: float 3s infinite ease-in-out; }
 .animate-backdrop-in { animation: backdropFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-modal-in { animation: modalScaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
@@ -72,11 +62,22 @@ body {
 
 .gradient-text {
   background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
-  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: shimmer 3s linear infinite;
+}
+
+.barber-stripe {
+  display: inline-block;
+  width: 32px;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: repeating-linear-gradient(
+    -45deg,
+    #b91c1c 0 4px,
+    #f4f4f5 4px 8px,
+    #d97706 8px 12px
+  );
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
