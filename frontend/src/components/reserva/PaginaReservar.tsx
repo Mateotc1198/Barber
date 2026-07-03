@@ -135,7 +135,7 @@ export function PaginaReservar({ servicio, barberos }: Props) {
               <button
                 key={b.id}
                 onClick={() => { setBarberoSeleccionado(b); setPaso("fecha"); setFechaSeleccionada(null); setSlotSeleccionado(null); }}
-                className={`flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-all ${
+                className={`flex flex-col items-center gap-3 p-4 rounded-2xl border-2 transition-colors ${
                   sel
                     ? "border-amber-500 bg-amber-50 dark:bg-amber-900/20"
                     : "border-zinc-200 dark:border-zinc-700 hover:border-amber-300"
@@ -183,7 +183,7 @@ export function PaginaReservar({ servicio, barberos }: Props) {
                 <button
                   key={fechaISO(d)}
                   onClick={() => { setFechaSeleccionada(d); setPaso("hora"); }}
-                  className={`flex flex-col items-center py-3 px-1 rounded-2xl border-2 transition-all text-sm font-semibold ${
+                  className={`flex flex-col items-center py-3 px-1 rounded-2xl border-2 transition-colors text-sm font-semibold ${
                     sel
                       ? "border-amber-500 bg-amber-500 text-white"
                       : "border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-amber-400"
@@ -221,7 +221,7 @@ export function PaginaReservar({ servicio, barberos }: Props) {
                     key={slot.hora}
                     disabled={lleno}
                     onClick={() => { setSlotSeleccionado(slot.hora); setPaso("nombre"); }}
-                    className={`py-3 rounded-xl text-sm font-semibold border-2 transition-all ${
+                    className={`py-3 rounded-xl text-sm font-semibold border-2 transition-colors ${
                       lleno
                         ? "border-red-200 dark:border-red-900/40 bg-red-50 dark:bg-red-900/10 text-red-400 cursor-not-allowed line-through"
                         : sel
@@ -266,7 +266,7 @@ export function PaginaReservar({ servicio, barberos }: Props) {
           <button
             onClick={confirmar}
             disabled={!nombre.trim() || cargando}
-            className="w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 text-white font-bold text-base transition-all disabled:cursor-not-allowed"
+            className="w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 text-white font-bold text-base transition-colors disabled:cursor-not-allowed"
           >
             {cargando ? "Reservando..." : "Confirmar cita"}
           </button>
