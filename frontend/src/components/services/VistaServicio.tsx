@@ -58,7 +58,7 @@ export function VistaServicio({ servicio, relacionados }: Props) {
             <button
               onClick={() => router.push(`/reservar/${servicio.id}`)}
               disabled={!servicio.disponible}
-              className="mt-6 w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 text-white font-black text-base transition-all disabled:cursor-not-allowed cursor-pointer"
+              className="mt-6 w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 text-white font-black text-base transition-colors disabled:cursor-not-allowed cursor-pointer"
             >
               Reservar cita
             </button>
