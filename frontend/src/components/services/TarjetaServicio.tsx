@@ -43,7 +43,7 @@ export function TarjetaServicio({ servicio, popular = false }: Props) {
               Popular
             </span>
           )}
-          <span className="ml-auto text-[10px] font-bold px-2.5 py-1 rounded-full backdrop-blur-sm bg-black/40 text-white/90">
+          <span className="ml-auto text-[10px] font-bold px-2.5 py-1 rounded-full bg-black/60 text-white/90">
             {servicio.categoria}
           </span>
         </div>
