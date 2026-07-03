@@ -26,11 +26,11 @@ export function BotonWhatsApp() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
-      className={`fixed right-6 z-50 p-4 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-xl transition-all duration-300 animate-pulse-glow hover:scale-110 active:scale-95 cursor-pointer ${
+      className={`fixed right-6 z-50 p-4 rounded-full bg-green-500 hover:bg-green-600 text-white shadow-[0_8px_24px_rgba(34,197,94,0.45)] hover:shadow-[0_10px_28px_rgba(34,197,94,0.6)] ring-1 ring-white/15 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
         elevar ? "bottom-24" : "bottom-6"
       }`}
     >
-      <IconoWhatsApp className="w-6 h-6" />
+      <IconoWhatsApp className="w-7 h-7" />
     </a>
   );
 }
