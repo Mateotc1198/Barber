@@ -17,9 +17,9 @@ export function SeccionHorarios() {
 
   return (
     <section className="py-20 px-[var(--page-padding-x)] bg-zinc-50 dark:bg-zinc-900/50">
-      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-center">
         {/* Texto */}
-        <div>
+        <div className="md:col-span-5">
           <p className="text-xs font-bold tracking-[0.3em] uppercase text-amber-600 dark:text-amber-400 mb-3">
             Horarios
           </p>
@@ -39,7 +39,7 @@ export function SeccionHorarios() {
         </div>
 
         {/* Tabla de horarios */}
-        <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 overflow-hidden shadow-sm">
+        <div className="md:col-span-7 rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 overflow-hidden shadow-sm">
           {HORARIOS.map((h, i) => {
             const esHoy = h.dia === hoy;
             return (
