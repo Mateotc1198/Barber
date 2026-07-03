@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import "./globals.css";
-import { ProveedorServicios } from "@/state/contextoServicios";
 import { NOMBRE_BARBERIA, ESLOGAN_BARBERIA } from "@/constants/barberia";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  weight: ["600", "900"],
+  style: ["normal", "italic"],
+});
 
 export const metadata: Metadata = {
   title: { default: NOMBRE_BARBERIA, template: `%s | ${NOMBRE_BARBERIA}` },
@@ -29,8 +34,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ProveedorServicios>{children}</ProveedorServicios>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} antialiased`}>
+        {children}
       </body>
     </html>
   );
