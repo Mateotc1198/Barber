@@ -30,16 +30,16 @@ export function Hero() {
 
       <div className="relative z-10 text-center px-6 max-w-3xl mx-auto">
         {/* Badge */}
-        <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in-up">
-          <div className="h-px w-8 bg-amber-400/60" />
+        <div className="flex items-center justify-center gap-3 mb-6 animate-fade-in-up">
+          <span className="barber-stripe" />
           <p className="text-xs font-semibold tracking-[0.25em] uppercase text-amber-300">
             {DESCRIPCION_HERO.subtitulo}
           </p>
-          <div className="h-px w-8 bg-amber-400/60" />
+          <span className="barber-stripe" />
         </div>
 
         <h1
-          className="text-5xl sm:text-6xl md:text-7xl font-black text-white leading-[1.05] tracking-tight mb-5 animate-fade-in-up"
+          className="font-[family-name:var(--font-display)] text-5xl sm:text-6xl md:text-7xl font-black text-white leading-[1.05] tracking-tight mb-5 animate-fade-in-up"
           style={{ animationDelay: "0.1s", textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}
         >
           {DESCRIPCION_HERO.titulo.split(",")[0]},
