@@ -82,12 +82,14 @@ export function SeccionCaracteristicas() {
               className={`group p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-900 hover:bg-amber-50 dark:hover:bg-zinc-800 border border-zinc-100 dark:border-zinc-800 hover:border-amber-200 dark:hover:border-amber-900 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg ${
                 visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
-              style={{ transitionDelay: `${i * 120}ms`, transitionProperty: "opacity, transform, background, border, box-shadow" }}
+              style={{ transitionDelay: `${i * 120}ms`, transitionProperty: "opacity, transform, background, border" }}
             >
-              <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                {f.icono}
+              <div className="flex items-center gap-3 mb-3">
+                <div className="text-amber-600 dark:text-amber-400 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                  {f.icono}
+                </div>
+                <h3 className="font-bold text-zinc-900 dark:text-zinc-100 text-base">{f.titulo}</h3>
               </div>
-              <h3 className="font-bold text-zinc-900 dark:text-zinc-100 mb-2 text-base">{f.titulo}</h3>
               <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">{f.descripcion}</p>
             </div>
           ))}
