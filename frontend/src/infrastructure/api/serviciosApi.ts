@@ -50,9 +50,9 @@ function aDatosApi(servicio: Omit<Servicio, "id" | "disponible">) {
 export const serviciosApi = {
   listar: (categoria?: string): Promise<Servicio[]> => {
     const qs = categoria ? `?categoria=${encodeURIComponent(categoria)}` : "";
-    return solicitar<ServicioDto[]>(`/api/v1/servicios${qs}`).then((dtos) =>
-      dtos.map(aServicio)
-    );
+    return solicitar<ServicioDto[]>(`/api/v1/servicios${qs}`, {
+      next: { revalidate: 60 },
+    }).then((dtos) => dtos.map(aServicio));
   },
 
   obtenerPorId: (id: string): Promise<Servicio> =>
