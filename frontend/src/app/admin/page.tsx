@@ -77,7 +77,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-16">
+    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 pb-28 sm:pb-16">
       <BotonTema />
 
       <header className="bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800 px-[var(--page-padding-x)] py-4">
@@ -95,13 +95,13 @@ export default function AdminPage() {
         </div>
       </header>
 
-      <div className="max-w-[var(--page-max-width)] mx-auto px-[var(--page-padding-x)] pt-8">
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-1 no-scrollbar">
+      <div className="max-w-[var(--page-max-width)] mx-auto px-[var(--page-padding-x)] pt-6 sm:pt-8">
+        <div className="flex gap-1.5 sm:gap-2 mb-6 sm:mb-8 overflow-x-auto pb-1 no-scrollbar">
           {TABS.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`flex-shrink-0 px-5 py-2 rounded-full text-sm font-semibold transition-colors cursor-pointer ${
+              className={`flex-shrink-0 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
                 tab === t.key
                   ? "bg-amber-600 text-white"
                   : "bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"

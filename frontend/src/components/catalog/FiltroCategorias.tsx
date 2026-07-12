@@ -6,17 +6,18 @@ import { Categoria } from "@/types/categoria";
 
 interface Props {
   categorias: Categoria[];
+  basePath?: string;
 }
 
-export function FiltroCategorias({ categorias }: Props) {
+export function FiltroCategorias({ categorias, basePath = "/servicios" }: Props) {
   const params = useSearchParams();
   const categoriaActual = params.get("categoria") ?? "";
 
   const chips = [
-    { label: "Todos", href: "/servicios" },
+    { label: "Todos", href: basePath },
     ...categorias.map((c) => ({
       label: c.nombre,
-      href: `/servicios?categoria=${encodeURIComponent(c.nombre)}`,
+      href: `${basePath}?categoria=${encodeURIComponent(c.nombre)}`,
     })),
   ];
 

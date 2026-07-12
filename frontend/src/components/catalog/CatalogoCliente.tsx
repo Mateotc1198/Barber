@@ -42,7 +42,9 @@ export function CatalogoCliente({ servicios, categorias }: Props) {
   return (
     <>
       <div className="py-10">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">Nuestros Servicios</h1>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+          Nuestros Servicios
+        </h1>
         <p className="text-zinc-500 dark:text-zinc-400 text-sm">
           {filtrados.length} servicio{filtrados.length !== 1 ? "s" : ""} disponibles
         </p>
