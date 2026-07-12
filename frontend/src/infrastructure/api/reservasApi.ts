@@ -2,9 +2,11 @@ import { SlotDisponibilidad, Reserva, ReservaData } from "@/types/reserva";
 import { solicitar } from "./clienteApi";
 
 export const reservasApi = {
-  disponibilidad: (servicioId: string, fecha: string, barberoId: string): Promise<SlotDisponibilidad[]> =>
+  disponibilidad: (fecha: string, barberoId: string, servicioId?: string): Promise<SlotDisponibilidad[]> =>
     solicitar<SlotDisponibilidad[]>(
-      `/api/v1/reservas/disponibilidad?servicioId=${encodeURIComponent(servicioId)}&fecha=${fecha}&barberoId=${encodeURIComponent(barberoId)}`
+      `/api/v1/reservas/disponibilidad?fecha=${fecha}&barberoId=${encodeURIComponent(barberoId)}${
+        servicioId ? `&servicioId=${encodeURIComponent(servicioId)}` : ""
+      }`
     ),
 
   crear: (data: ReservaData): Promise<Reserva> =>
