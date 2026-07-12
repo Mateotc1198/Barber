@@ -40,7 +40,7 @@ fs.mkdirSync(uploadsDir, { recursive: true });
 async function iniciar() {
   // Migraciones automáticas al iniciar
   console.log("Aplicando migraciones...");
-  execSync("npx prisma migrate deploy", { stdio: "inherit", cwd: process.cwd() });
+  console.log(execSync("npx prisma migrate deploy", { cwd: process.cwd() }).toString());
 
   // Seed automático (admin, servicios, contacto)
   console.log("Ejecutando seed...");
