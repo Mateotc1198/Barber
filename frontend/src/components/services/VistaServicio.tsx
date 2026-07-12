@@ -56,7 +56,7 @@ export function VistaServicio({ servicio, relacionados }: Props) {
             <OpcionesServicio servicio={servicio} />
 
             <button
-              onClick={() => router.push(`/reservar/${servicio.id}`)}
+              onClick={() => router.push("/reservar")}
               disabled={!servicio.disponible}
               className="mt-6 w-full py-4 rounded-2xl bg-amber-500 hover:bg-amber-400 disabled:bg-zinc-300 dark:disabled:bg-zinc-700 text-white font-black text-base transition-colors disabled:cursor-not-allowed cursor-pointer"
             >

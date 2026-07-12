@@ -53,12 +53,18 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes stepIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
 .animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-float { animation: float 3s infinite ease-in-out; }
 .animate-backdrop-in { animation: backdropFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-modal-in { animation: modalScaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
 .animate-scroll-bounce { animation: scrollBounce 1.5s ease-in-out infinite; }
 .animate-count-up { animation: countUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-step-in { animation: stepIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
 .gradient-text {
   background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
