@@ -1,3 +1,10 @@
+export interface DiaHorario {
+  diaSemana: number;
+  activo: boolean;
+  horaInicio: string;
+  horaFin: string;
+}
+
 export interface Barbero {
   id: string;
   nombre: string;
@@ -5,4 +12,5 @@ export interface Barbero {
   descripcion: string;
   activo: boolean;
   orden: number;
+  horario: DiaHorario[];
 }
