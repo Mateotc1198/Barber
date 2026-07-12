@@ -7,10 +7,10 @@ export function PieDePagina() {
   return (
     <footer className="bg-zinc-950 text-zinc-400">
       {/* Main footer */}
-      <div className="max-w-[var(--page-max-width)] mx-auto px-[var(--page-padding-x)] pt-16 pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div className="max-w-[var(--page-max-width)] mx-auto px-[var(--page-padding-x)] pt-12 sm:pt-16 pb-8 sm:pb-10">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 sm:gap-10 mb-10 sm:mb-12">
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div className="col-span-2 lg:col-span-1">
             <p className="text-white font-black text-xl tracking-widest mb-2">{NOMBRE_BARBERIA}</p>
             <p className="text-sm text-zinc-400 mb-5 leading-relaxed">{ESLOGAN_BARBERIA}</p>
             <div className="flex gap-3">
@@ -69,6 +69,7 @@ export function PieDePagina() {
             <p className="text-white font-bold mb-4 text-xs uppercase tracking-[0.15em]">Empresa</p>
             <ul className="space-y-2.5 text-sm">
               <li><Link href="/" className="hover:text-amber-400 transition-colors hover:pl-1 duration-200 block">Inicio</Link></li>
+              <li><Link href="/reservar" className="hover:text-amber-400 transition-colors hover:pl-1 duration-200 block">Agendar cita</Link></li>
               <li><Link href="/servicios" className="hover:text-amber-400 transition-colors hover:pl-1 duration-200 block">Catálogo</Link></li>
               <li><Link href="/contacto" className="hover:text-amber-400 transition-colors hover:pl-1 duration-200 block">Contacto</Link></li>
               <li><Link href="/admin" className="hover:text-amber-400 transition-colors hover:pl-1 duration-200 block">Administración</Link></li>
@@ -76,7 +77,7 @@ export function PieDePagina() {
           </div>
 
           {/* Horario */}
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <p className="text-white font-bold mb-4 text-xs uppercase tracking-[0.15em]">Horarios</p>
             <ul className="space-y-1.5 text-xs">
               {[
@@ -95,7 +96,7 @@ export function PieDePagina() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-zinc-800/60 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div className="border-t border-zinc-800/60 pt-6 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-3 text-center sm:text-left">
           <p className="text-xs text-zinc-600">
             &copy; {year} {NOMBRE_BARBERIA}. Todos los derechos reservados.
           </p>

@@ -23,15 +23,15 @@ export function SeccionCTA() {
           <span className="gradient-text">mejor versión?</span>
         </h2>
         <p className="text-zinc-400 text-sm leading-relaxed max-w-md mx-auto mb-10">
-          Explora nuestros servicios y contáctanos para agendar tu cita.
+          Reserva en menos de un minuto, sin llamadas ni esperas.
         </p>
 
         <div className="flex flex-wrap gap-4 justify-center">
           <Link
-            href="/contacto"
+            href="/reservar"
             className="px-8 py-4 rounded-full bg-amber-500 hover:bg-amber-400 text-white font-bold text-sm transition-all duration-300 hover:scale-105 active:scale-95"
           >
-            Contáctanos
+            Agenda tu cita ahora
           </Link>
           <Link
             href="/servicios"

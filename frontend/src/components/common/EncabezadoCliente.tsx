@@ -80,6 +80,13 @@ export function EncabezadoCliente({ categorias }: Props) {
           <Link href="/contacto" className="text-zinc-700 dark:text-zinc-300 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
             Contacto
           </Link>
+
+          <Link
+            href="/reservar"
+            className="px-5 py-2 rounded-full bg-amber-600 hover:bg-amber-500 text-white font-bold transition-colors"
+          >
+            Agendar Cita
+          </Link>
         </nav>
 
         {/* Hamburger mobile */}
@@ -116,6 +123,13 @@ export function EncabezadoCliente({ categorias }: Props) {
             </Link>
           ))}
           <Link href="/contacto" onClick={() => setMenuAbierto(false)} className="text-sm font-medium text-zinc-700 dark:text-zinc-300">Contacto</Link>
+          <Link
+            href="/reservar"
+            onClick={() => setMenuAbierto(false)}
+            className="mt-1 px-4 py-2.5 rounded-full bg-amber-600 text-white text-sm font-bold text-center"
+          >
+            Agendar Cita
+          </Link>
         </div>
       )}
     </header>

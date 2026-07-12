@@ -59,18 +59,26 @@ export function Hero() {
           style={{ animationDelay: "0.3s" }}
         >
           <Link
-            href="/servicios"
+            href="/reservar"
             className="group px-8 py-3.5 rounded-full bg-amber-600 hover:bg-amber-500 text-white font-bold text-sm shadow-[0_0_24px_rgba(217,119,6,0.5)] hover:shadow-[0_0_32px_rgba(217,119,6,0.7)] transition-all duration-300 hover:scale-105 active:scale-95 tracking-wide"
+          >
+            Agendar Cita
+          </Link>
+          <Link
+            href="/servicios"
+            className="px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white font-bold text-sm transition-all duration-300 hover:scale-105 active:scale-95 tracking-wide"
           >
             Ver Servicios
           </Link>
-          <Link
-            href="/contacto"
-            className="px-8 py-3.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white font-bold text-sm transition-all duration-300 hover:scale-105 active:scale-95 tracking-wide"
-          >
-            Contáctanos
-          </Link>
         </div>
+
+        <Link
+          href="/contacto"
+          className="inline-block mt-5 text-xs text-white/60 hover:text-white/90 underline underline-offset-4 transition-colors animate-fade-in-up"
+          style={{ animationDelay: "0.4s" }}
+        >
+          Contáctanos
+        </Link>
 
       </div>
     </section>
