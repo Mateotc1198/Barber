@@ -9,6 +9,7 @@ import { ContactInfoService } from "../../application/ContactInfoService";
 import { CategoriaService } from "../../application/CategoriaService";
 import { ReservaService } from "../../application/ReservaService";
 import { BarberoService } from "../../application/BarberoService";
+import { ResenaService } from "../../application/ResenaService";
 import { crearAutenticacion } from "./middlewares/autenticacion";
 import { manejadorErrores } from "./middlewares/manejadorErrores";
 import { crearRutasAuth } from "./routes/rutasAuth";
@@ -18,6 +19,7 @@ import { crearRutasContacto } from "./routes/rutasContacto";
 import { crearRutasCategorias } from "./routes/rutasCategorias";
 import { crearRutasReservas } from "./routes/rutasReservas";
 import { crearRutasBarberos } from "./routes/rutasBarberos";
+import { crearRutasResenas } from "./routes/rutasResenas";
 import { crearUploadImagenes } from "./upload/configMulter";
 
 interface AppDependencies {
@@ -27,6 +29,7 @@ interface AppDependencies {
   categoriaService: CategoriaService;
   reservaService: ReservaService;
   barberoService: BarberoService;
+  resenaService: ResenaService;
   uploadsDir: string;
   frontendOrigin: string;
   publicUrl: string;
@@ -62,6 +65,7 @@ export function crearApp(deps: AppDependencies): Express {
   app.use("/api/v1/categorias", crearRutasCategorias(deps.categoriaService, authenticate));
   app.use("/api/v1/reservas", crearRutasReservas(deps.reservaService, authenticate));
   app.use("/api/v1/barberos", crearRutasBarberos(deps.barberoService, authenticate));
+  app.use("/api/v1/resenas", crearRutasResenas(deps.resenaService, authenticate));
   app.use("/uploads", express.static(deps.uploadsDir));
 
   app.get("/health", (_req, res) => { res.json({ status: "ok" }); });

@@ -6,6 +6,7 @@ import { clientePrisma } from "./infrastructure/db/clientePrisma";
 import { PrismaServicioRepository } from "./infrastructure/repositories/PrismaServicioRepository";
 import { PrismaReservaRepository } from "./infrastructure/repositories/PrismaReservaRepository";
 import { PrismaBarberoRepository } from "./infrastructure/repositories/PrismaBarberoRepository";
+import { PrismaResenaRepository } from "./infrastructure/repositories/PrismaResenaRepository";
 import { PrismaAdminRepository } from "./infrastructure/repositories/PrismaAdminRepository";
 import { PrismaContactInfoRepository } from "./infrastructure/repositories/PrismaContactInfoRepository";
 import { PrismaCategoriaRepository } from "./infrastructure/repositories/PrismaCategoriaRepository";
@@ -19,6 +20,7 @@ import { ContactInfoService } from "./application/ContactInfoService";
 import { CategoriaService } from "./application/CategoriaService";
 import { ReservaService } from "./application/ReservaService";
 import { BarberoService } from "./application/BarberoService";
+import { ResenaService } from "./application/ResenaService";
 import { crearApp } from "./interfaces/http/app";
 
 const PORT = Number(process.env.PORT ?? 4000);
@@ -46,7 +48,9 @@ async function iniciar() {
 
   const prismaServicioRepo = new PrismaServicioRepository(clientePrisma);
   const prismaBarberoRepo = new PrismaBarberoRepository(clientePrisma);
-  const barberoService = new BarberoService(prismaBarberoRepo);
+  const prismaReservaRepo = new PrismaReservaRepository(clientePrisma);
+  const prismaResenaRepo = new PrismaResenaRepository(clientePrisma);
+  const barberoService = new BarberoService(prismaBarberoRepo, prismaReservaRepo, prismaResenaRepo);
 
   await barberoService.seedInicial([
     { nombre: "Han Vidal", descripcion: "Especialista en fades y cortes modernos.", orden: 1 },
@@ -62,8 +66,9 @@ async function iniciar() {
     servicioService: new ServicioService(prismaServicioRepo, SEED_SERVICIOS),
     contactInfoService: new ContactInfoService(new PrismaContactInfoRepository(clientePrisma)),
     categoriaService: new CategoriaService(new PrismaCategoriaRepository(clientePrisma), prismaServicioRepo),
-    reservaService: new ReservaService(new PrismaReservaRepository(clientePrisma), prismaServicioRepo, prismaBarberoRepo),
+    reservaService: new ReservaService(prismaReservaRepo, prismaServicioRepo, prismaBarberoRepo),
     barberoService,
+    resenaService: new ResenaService(prismaResenaRepo),
     uploadsDir,
     frontendOrigin: FRONTEND_ORIGIN,
     publicUrl: PUBLIC_URL,
