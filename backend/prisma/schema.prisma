@@ -29,9 +29,21 @@ model Barbero {
   descripcion String    @default("")
   activo      Boolean   @default(true)
   orden       Int       @default(0)
+  horario     String    @default("[]")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   reservas    Reserva[]
+  resenas     Resena[]
+}
+
+model Resena {
+  id            String   @id @default(uuid())
+  barberoId     String
+  barbero       Barbero  @relation(fields: [barberoId], references: [id], onDelete: Cascade)
+  nombreCliente String
+  calificacion  Int
+  comentario    String   @default("")
+  createdAt     DateTime @default(now())
 }
 
 model Reserva {
