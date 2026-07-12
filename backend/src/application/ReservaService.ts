@@ -2,27 +2,39 @@ import { Reserva, ReservaData, SlotDisponibilidad } from "../domain/entities/Res
 import { ReservaRepository } from "../domain/repositories/ReservaRepository";
 import { ServicioRepository } from "../domain/repositories/ServicioRepository";
 import { BarberoRepository } from "../domain/repositories/BarberoRepository";
+import { Barbero, DiaHorario } from "../domain/entities/Barbero";
 
-const HORA_APERTURA_MIN = 9 * 60;
-const HORA_CIERRE_MIN = 20 * 60;
+const DURACION_MINUTOS_POR_DEFECTO = 30;
 
-function generarSlots(duracionMinutos: number): string[] {
+const HORARIO_POR_DEFECTO: DiaHorario[] = [
+  { diaSemana: 0, activo: false, horaInicio: "09:00", horaFin: "20:00" },
+  { diaSemana: 1, activo: true, horaInicio: "09:00", horaFin: "20:00" },
+  { diaSemana: 2, activo: true, horaInicio: "09:00", horaFin: "20:00" },
+  { diaSemana: 3, activo: true, horaInicio: "09:00", horaFin: "20:00" },
+  { diaSemana: 4, activo: true, horaInicio: "09:00", horaFin: "20:00" },
+  { diaSemana: 5, activo: true, horaInicio: "09:00", horaFin: "20:00" },
+  { diaSemana: 6, activo: true, horaInicio: "09:00", horaFin: "20:00" },
+];
+
+function aMinutos(hora: string): number {
+  const [h, m] = hora.split(":").map(Number);
+  return h * 60 + m;
+}
+
+function obtenerHorarioDelDia(barbero: Barbero | null, fecha: string): DiaHorario | undefined {
+  const diaSemana = new Date(`${fecha}T12:00:00`).getDay();
+  const horario = barbero?.horario && barbero.horario.length > 0 ? barbero.horario : HORARIO_POR_DEFECTO;
+  return horario.find((d) => d.diaSemana === diaSemana);
+}
+
+function generarSlots(duracionMinutos: number, horaInicio: string, horaFin: string): string[] {
+  const inicioMin = aMinutos(horaInicio);
+  const finMin = aMinutos(horaFin);
   const slots: string[] = [];
-  for (let min = HORA_APERTURA_MIN; min + duracionMinutos <= HORA_CIERRE_MIN; min += duracionMinutos) {
+  for (let min = inicioMin; min + duracionMinutos <= finMin; min += duracionMinutos) {
     slots.push(`${String(Math.floor(min / 60)).padStart(2, "0")}:${String(min % 60).padStart(2, "0")}`);
   }
   return slots;
-}
-
-function esDiaValido(fecha: string): boolean {
-  const dia = new Date(`${fecha}T12:00:00`).getDay();
-  return dia >= 1 && dia <= 6;
-}
-
-function esSlotValido(hora: string, duracionMinutos: number): boolean {
-  const [h, m] = hora.split(":").map(Number);
-  const min = h * 60 + m;
-  return min >= HORA_APERTURA_MIN && min + duracionMinutos <= HORA_CIERRE_MIN;
 }
 
 export class ReservaService {
@@ -32,16 +44,19 @@ export class ReservaService {
     private readonly barberoRepo: BarberoRepository
   ) {}
 
-  async obtenerDisponibilidad(servicioId: string, fecha: string, barberoId: string): Promise<SlotDisponibilidad[]> {
+  async obtenerDisponibilidad(fecha: string, barberoId: string, servicioId?: string): Promise<SlotDisponibilidad[]> {
     const [servicio, barbero] = await Promise.all([
-      this.servicioRepo.getById(servicioId),
+      servicioId ? this.servicioRepo.getById(servicioId) : Promise.resolve(null),
       this.barberoRepo.getById(barberoId),
     ]);
-    if (!servicio) throw new Error("Servicio no encontrado");
+    if (servicioId && !servicio) throw new Error("Servicio no encontrado");
     if (!barbero || !barbero.activo) throw new Error("Barbero no encontrado");
-    if (!esDiaValido(fecha)) throw new Error("El local no atiende ese día");
 
-    const slots = generarSlots(servicio.duracionMinutos);
+    const diaHorario = obtenerHorarioDelDia(barbero, fecha);
+    if (!diaHorario || !diaHorario.activo) return [];
+
+    const duracionMinutos = servicio?.duracionMinutos ?? DURACION_MINUTOS_POR_DEFECTO;
+    const slots = generarSlots(duracionMinutos, diaHorario.horaInicio, diaHorario.horaFin);
     const ocupados = await this.reservaRepo.obtenerSlotsBarbero(barberoId, fecha);
 
     return slots.map((hora) => ({
@@ -60,15 +75,18 @@ export class ReservaService {
   }
 
   async crear(data: ReservaData): Promise<Reserva> {
-    const servicio = await this.servicioRepo.getById(data.servicioId);
-    if (!servicio) throw new Error("Servicio no encontrado");
-    if (!esDiaValido(data.fecha)) throw new Error("El local no atiende ese día");
-    if (!esSlotValido(data.hora, servicio.duracionMinutos)) throw new Error("Hora fuera del horario de atención");
+    const servicio = data.servicioId ? await this.servicioRepo.getById(data.servicioId) : null;
+    if (data.servicioId && !servicio) throw new Error("Servicio no encontrado");
 
-    if (data.barberoId) {
-      const barbero = await this.barberoRepo.getById(data.barberoId);
-      if (!barbero || !barbero.activo) throw new Error("Barbero no encontrado");
-    }
+    const barbero = data.barberoId ? await this.barberoRepo.getById(data.barberoId) : null;
+    if (data.barberoId && (!barbero || !barbero.activo)) throw new Error("Barbero no encontrado");
+
+    const diaHorario = obtenerHorarioDelDia(barbero, data.fecha);
+    if (!diaHorario || !diaHorario.activo) throw new Error("El barbero no atiende ese día");
+
+    const duracionMinutos = servicio?.duracionMinutos ?? DURACION_MINUTOS_POR_DEFECTO;
+    const slotsValidos = generarSlots(duracionMinutos, diaHorario.horaInicio, diaHorario.horaFin);
+    if (!slotsValidos.includes(data.hora)) throw new Error("Hora fuera del horario de atención");
 
     return this.reservaRepo.crearAtomico(data);
   }

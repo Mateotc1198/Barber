@@ -47,17 +47,17 @@ model Resena {
 }
 
 model Reserva {
-  id         String   @id @default(uuid())
-  servicioId String
-  servicio   Servicio @relation(fields: [servicioId], references: [id], onDelete: Cascade)
+  id         String    @id @default(uuid())
+  servicioId String?
+  servicio   Servicio? @relation(fields: [servicioId], references: [id], onDelete: SetNull)
   barberoId  String?
-  barbero    Barbero? @relation(fields: [barberoId], references: [id])
+  barbero    Barbero?  @relation(fields: [barberoId], references: [id])
   fecha      String
   hora       String
   nombre     String
-  telefono   String   @default("")
-  estado     String   @default("pendiente")
-  createdAt  DateTime @default(now())
+  telefono   String    @default("")
+  estado     String    @default("pendiente")
+  createdAt  DateTime  @default(now())
 }
 
 model Admin {

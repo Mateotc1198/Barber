@@ -15,7 +15,7 @@ export class PrismaReservaRepository implements ReservaRepository {
       }
       return tx.reserva.create({
         data: {
-          servicioId: data.servicioId,
+          servicioId: data.servicioId ?? null,
           barberoId: data.barberoId ?? null,
           fecha: data.fecha,
           hora: data.hora,

@@ -1,6 +1,6 @@
 export interface Reserva {
   id: string;
-  servicioId: string;
+  servicioId: string | null;
   fecha: string;
   hora: string;
   nombre: string;
@@ -10,7 +10,7 @@ export interface Reserva {
 }
 
 export interface ReservaData {
-  servicioId: string;
+  servicioId?: string;
   barberoId?: string;
   fecha: string;
   hora: string;

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { ReservaService } from "../../../application/ReservaService";
 
 const esquemaReserva = z.object({
-  servicioId: z.string().min(1),
+  servicioId: z.string().min(1).optional(),
   barberoId: z.string().optional(),
   fecha: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Formato fecha: YYYY-MM-DD"),
   hora: z.string().regex(/^\d{2}:\d{2}$/, "Formato hora: HH:MM"),
@@ -17,11 +17,11 @@ export function crearRutasReservas(service: ReservaService, authenticate: Reques
   router.get("/disponibilidad", async (req, res, next) => {
     try {
       const { servicioId, fecha, barberoId } = req.query;
-      if (typeof servicioId !== "string" || typeof fecha !== "string" || typeof barberoId !== "string") {
-        res.status(400).json({ error: "servicioId, fecha y barberoId son requeridos", code: "VALIDATION_ERROR" });
+      if (typeof fecha !== "string" || typeof barberoId !== "string") {
+        res.status(400).json({ error: "fecha y barberoId son requeridos", code: "VALIDATION_ERROR" });
         return;
       }
-      const slots = await service.obtenerDisponibilidad(servicioId, fecha, barberoId);
+      const slots = await service.obtenerDisponibilidad(fecha, barberoId, typeof servicioId === "string" ? servicioId : undefined);
       res.json(slots);
     } catch (error) {
       next(error);
