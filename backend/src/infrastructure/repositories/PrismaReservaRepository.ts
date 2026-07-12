@@ -48,4 +48,12 @@ export class PrismaReservaRepository implements ReservaRepository {
   async cancelar(id: string): Promise<void> {
     await this.prisma.reserva.update({ where: { id }, data: { estado: "cancelada" } });
   }
+
+  async contarCompletadas(barberoId: string): Promise<number> {
+    const hoy = new Date();
+    const hoyISO = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, "0")}-${String(hoy.getDate()).padStart(2, "0")}`;
+    return this.prisma.reserva.count({
+      where: { barberoId, estado: { not: "cancelada" }, fecha: { lt: hoyISO } },
+    });
+  }
 }

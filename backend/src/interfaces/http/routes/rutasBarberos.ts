@@ -2,12 +2,20 @@ import { Router, RequestHandler } from "express";
 import { z } from "zod";
 import { BarberoService } from "../../../application/BarberoService";
 
+const esquemaDiaHorario = z.object({
+  diaSemana: z.number().int().min(0).max(6),
+  activo: z.boolean(),
+  horaInicio: z.string(),
+  horaFin: z.string(),
+});
+
 const esquemaBarbero = z.object({
   nombre: z.string().min(1).max(100),
   fotoUrl: z.string().optional(),
   descripcion: z.string().max(500).optional(),
   activo: z.boolean().optional(),
   orden: z.number().int().optional(),
+  horario: z.array(esquemaDiaHorario).optional(),
 });
 
 export function crearRutasBarberos(service: BarberoService, authenticate: RequestHandler): Router {
@@ -22,6 +30,14 @@ export function crearRutasBarberos(service: BarberoService, authenticate: Reques
       const b = await service.getById(req.params.id);
       if (!b) { res.status(404).json({ error: "Barbero no encontrado" }); return; }
       res.json(b);
+    } catch (e) { next(e); }
+  });
+
+  router.get("/:id/perfil", async (req, res, next) => {
+    try {
+      const perfil = await service.obtenerPerfil(req.params.id);
+      if (!perfil) { res.status(404).json({ error: "Barbero no encontrado" }); return; }
+      res.json(perfil);
     } catch (e) { next(e); }
   });
 

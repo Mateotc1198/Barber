@@ -5,4 +5,5 @@ export interface ReservaRepository {
   obtenerSlotsBarbero(barberoId: string, fecha: string): Promise<Set<string>>;
   listarPorFecha(fecha: string): Promise<Reserva[]>;
   cancelar(id: string): Promise<void>;
+  contarCompletadas(barberoId: string): Promise<number>;
 }
