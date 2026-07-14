@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Categoria } from "@/types/categoria";
 import { categoriasApi } from "@/infrastructure/api/categoriasApi";
 import { imagenesApi } from "@/infrastructure/api/imagenesApi";
+import { useToast } from "@/components/ui/ToastProvider";
 
 interface Props {
   categorias: Categoria[];
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function ListaCategoriasAdmin({ categorias, onActualizar }: Props) {
+  const { mostrar } = useToast();
   const [subiendo, setSubiendo] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,6 +24,7 @@ export function ListaCategoriasAdmin({ categorias, onActualizar }: Props) {
       const url = await imagenesApi.subir(archivo);
       await categoriasApi.actualizar(nombre, { imagenBanner: url, orden: 0 });
       await onActualizar();
+      mostrar("Banner actualizado");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al subir banner");
     } finally {

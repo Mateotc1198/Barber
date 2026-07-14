@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Servicio } from "@/types/servicio";
 import { serviciosApi } from "@/infrastructure/api/serviciosApi";
 import { ModalConfirmacion } from "@/components/ui/ModalConfirmacion";
+import { useToast } from "@/components/ui/ToastProvider";
 import { FormularioServicio } from "./FormularioServicio";
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function ListaServiciosAdmin({ servicios, categorias, onActualizar }: Props) {
+  const { mostrar } = useToast();
   const [editando, setEditando] = useState<Servicio | null>(null);
   const [creando, setCreando] = useState(false);
   const [confirmando, setConfirmando] = useState<string | null>(null);
@@ -24,6 +26,7 @@ export function ListaServiciosAdmin({ servicios, categorias, onActualizar }: Pro
     await serviciosApi.eliminar(id);
     setConfirmando(null);
     await onActualizar();
+    mostrar("Servicio eliminado");
   }
 
   async function actualizarCupos(id: string) {
@@ -36,6 +39,7 @@ export function ListaServiciosAdmin({ servicios, categorias, onActualizar }: Pro
       return next;
     });
     await onActualizar();
+    mostrar("Cupos actualizados");
   }
 
   async function resetear() {
@@ -43,6 +47,7 @@ export function ListaServiciosAdmin({ servicios, categorias, onActualizar }: Pro
     try {
       await serviciosApi.reset();
       await onActualizar();
+      mostrar("Catálogo restaurado");
     } finally {
       setReiniciando(false);
     }
@@ -52,6 +57,7 @@ export function ListaServiciosAdmin({ servicios, categorias, onActualizar }: Pro
     await serviciosApi.crear(data);
     setCreando(false);
     await onActualizar();
+    mostrar("Servicio creado");
   }
 
   async function guardarEdicion(data: Omit<Servicio, "id" | "disponible">) {
@@ -59,6 +65,7 @@ export function ListaServiciosAdmin({ servicios, categorias, onActualizar }: Pro
     await serviciosApi.actualizar(editando.id, data);
     setEditando(null);
     await onActualizar();
+    mostrar("Servicio actualizado");
   }
 
   if (creando) {

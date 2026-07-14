@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Barbero, DiaHorario } from "@/types/barbero";
 import { Resena } from "@/types/resena";
 import { barberosApi } from "@/infrastructure/api/barberosApi";
 import { resenasApi } from "@/infrastructure/api/resenasApi";
 import { EstrellasRating } from "@/components/reserva/EstrellasRating";
+import { ModalConfirmacion } from "@/components/ui/ModalConfirmacion";
+import { useToast } from "@/components/ui/ToastProvider";
 
 const NOMBRES_DIAS = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
 
@@ -16,8 +18,13 @@ const HORARIO_DEFECTO: DiaHorario[] = [0, 1, 2, 3, 4, 5, 6].map((diaSemana) => (
   horaFin: "20:00",
 }));
 
-export function BarberosAdmin() {
-  const [barberos, setBarberos] = useState<Barbero[]>([]);
+interface Props {
+  barberos: Barbero[];
+  onActualizar: () => Promise<void>;
+}
+
+export function BarberosAdmin({ barberos, onActualizar }: Props) {
+  const { mostrar } = useToast();
   const [editando, setEditando] = useState<Barbero | null>(null);
   const [creando, setCreando] = useState(false);
   const [form, setForm] = useState({
@@ -32,11 +39,8 @@ export function BarberosAdmin() {
   const [resenasAbiertasDe, setResenasAbiertasDe] = useState<string | null>(null);
   const [resenas, setResenas] = useState<Resena[]>([]);
 
-  async function cargar() {
-    setBarberos(await barberosApi.listar());
-  }
-
-  useEffect(() => { void cargar(); }, []);
+  const [confirmandoBarbero, setConfirmandoBarbero] = useState<string | null>(null);
+  const [confirmandoResena, setConfirmandoResena] = useState<{ id: string; barberoId: string } | null>(null);
 
   function abrirCrear() {
     setForm({ nombre: "", descripcion: "", fotoUrl: "", activo: true, horario: HORARIO_DEFECTO });
@@ -66,6 +70,7 @@ export function BarberosAdmin() {
   async function guardar() {
     setCargando(true);
     try {
+      const eraEdicion = !!editando;
       if (editando) {
         await barberosApi.actualizar(editando.id, { ...form, orden: editando.orden });
       } else {
@@ -73,16 +78,18 @@ export function BarberosAdmin() {
       }
       setEditando(null);
       setCreando(false);
-      await cargar();
+      await onActualizar();
+      mostrar(eraEdicion ? "Barbero actualizado" : "Barbero creado");
     } finally {
       setCargando(false);
     }
   }
 
   async function eliminar(id: string) {
-    if (!confirm("¿Eliminar barbero? Esto no afecta reservas existentes.")) return;
     await barberosApi.eliminar(id);
-    await cargar();
+    setConfirmandoBarbero(null);
+    await onActualizar();
+    mostrar("Barbero eliminado");
   }
 
   async function toggleResenas(b: Barbero) {
@@ -95,9 +102,10 @@ export function BarberosAdmin() {
   }
 
   async function eliminarResena(id: string, barberoId: string) {
-    if (!confirm("¿Eliminar esta reseña?")) return;
     await resenasApi.eliminar(id);
+    setConfirmandoResena(null);
     setResenas(await resenasApi.listarPorBarbero(barberoId));
+    mostrar("Reseña eliminada");
   }
 
   const mostrarForm = creando || !!editando;
@@ -158,8 +166,8 @@ export function BarberosAdmin() {
             <label className="text-xs text-zinc-500 mb-2 block">Horario de trabajo</label>
             <div className="space-y-2">
               {form.horario.map((d) => (
-                <div key={d.diaSemana} className="flex items-center gap-2">
-                  <label className="flex items-center gap-2 w-28 flex-shrink-0 cursor-pointer">
+                <div key={d.diaSemana} className="flex flex-col sm:flex-row sm:items-center gap-2 pb-2 border-b border-zinc-100 dark:border-zinc-800 last:border-0 sm:border-0 sm:pb-0">
+                  <label className="flex items-center gap-2 sm:w-28 sm:flex-shrink-0 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={d.activo}
@@ -168,21 +176,23 @@ export function BarberosAdmin() {
                     />
                     <span className="text-xs text-zinc-700 dark:text-zinc-300">{NOMBRES_DIAS[d.diaSemana]}</span>
                   </label>
-                  <input
-                    type="time"
-                    value={d.horaInicio}
-                    disabled={!d.activo}
-                    onChange={(e) => actualizarDia(d.diaSemana, { horaInicio: e.target.value })}
-                    className="px-2 py-1 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 text-xs disabled:opacity-40 focus:outline-none focus:border-amber-500"
-                  />
-                  <span className="text-xs text-zinc-400">a</span>
-                  <input
-                    type="time"
-                    value={d.horaFin}
-                    disabled={!d.activo}
-                    onChange={(e) => actualizarDia(d.diaSemana, { horaFin: e.target.value })}
-                    className="px-2 py-1 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 text-xs disabled:opacity-40 focus:outline-none focus:border-amber-500"
-                  />
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="time"
+                      value={d.horaInicio}
+                      disabled={!d.activo}
+                      onChange={(e) => actualizarDia(d.diaSemana, { horaInicio: e.target.value })}
+                      className="flex-1 min-w-0 px-2 py-1 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 text-xs disabled:opacity-40 focus:outline-none focus:border-amber-500"
+                    />
+                    <span className="text-xs text-zinc-400 flex-shrink-0">a</span>
+                    <input
+                      type="time"
+                      value={d.horaFin}
+                      disabled={!d.activo}
+                      onChange={(e) => actualizarDia(d.diaSemana, { horaFin: e.target.value })}
+                      className="flex-1 min-w-0 px-2 py-1 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 text-xs disabled:opacity-40 focus:outline-none focus:border-amber-500"
+                    />
+                  </div>
                 </div>
               ))}
             </div>
@@ -239,7 +249,7 @@ export function BarberosAdmin() {
                   {resenasAbiertasDe === b.id ? "Ocultar reseñas" : "Ver reseñas"}
                 </button>
                 <button onClick={() => abrirEditar(b)} className="text-xs text-amber-600 hover:text-amber-500 font-semibold cursor-pointer">Editar</button>
-                <button onClick={() => void eliminar(b.id)} className="text-xs text-red-500 hover:text-red-700 font-semibold cursor-pointer">Eliminar</button>
+                <button onClick={() => setConfirmandoBarbero(b.id)} className="text-xs text-red-500 hover:text-red-700 font-semibold cursor-pointer">Eliminar</button>
               </div>
             </div>
 
@@ -258,7 +268,7 @@ export function BarberosAdmin() {
                         {r.comentario && <p className="text-zinc-500 dark:text-zinc-400">{r.comentario}</p>}
                       </div>
                       <button
-                        onClick={() => void eliminarResena(r.id, b.id)}
+                        onClick={() => setConfirmandoResena({ id: r.id, barberoId: b.id })}
                         className="text-red-500 hover:text-red-700 font-semibold flex-shrink-0 cursor-pointer"
                       >
                         Eliminar
@@ -271,6 +281,28 @@ export function BarberosAdmin() {
           </div>
         ))}
       </div>
+
+      {confirmandoBarbero && (
+        <ModalConfirmacion
+          titulo="Eliminar barbero"
+          mensaje="¿Eliminar barbero? Esto no afecta reservas existentes."
+          labelConfirmar="Eliminar"
+          variante="danger"
+          onConfirmar={() => void eliminar(confirmandoBarbero)}
+          onCancelar={() => setConfirmandoBarbero(null)}
+        />
+      )}
+
+      {confirmandoResena && (
+        <ModalConfirmacion
+          titulo="Eliminar reseña"
+          mensaje="¿Eliminar esta reseña? Esta acción no se puede deshacer."
+          labelConfirmar="Eliminar"
+          variante="danger"
+          onConfirmar={() => void eliminarResena(confirmandoResena.id, confirmandoResena.barberoId)}
+          onCancelar={() => setConfirmandoResena(null)}
+        />
+      )}
     </div>
   );
 }
