@@ -57,11 +57,12 @@ export function SeccionCaracteristicas() {
   return (
     <section
       ref={ref}
-      className="py-20 px-[var(--page-padding-x)]"
+      className="relative z-10 -mt-8 sm:mt-0 rounded-t-[2rem] sm:rounded-none bg-[var(--background)] shadow-[0_-24px_40px_-16px_rgba(0,0,0,0.25)] sm:shadow-none pt-10 pb-20 sm:py-20 px-[var(--page-padding-x)]"
     >
       <div className="max-w-[var(--page-max-width)] mx-auto">
         {/* Header */}
         <div className="text-center mb-14">
+          <span className="sm:hidden block mx-auto mb-6 h-1 w-10 rounded-full bg-zinc-200 dark:bg-zinc-700" aria-hidden="true" />
           <p className="text-xs font-bold tracking-[0.3em] uppercase text-amber-600 dark:text-amber-400 mb-3">
             ¿Por qué elegirnos?
           </p>
