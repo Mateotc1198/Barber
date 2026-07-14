@@ -10,10 +10,9 @@ import { EstrellasRating } from "./EstrellasRating";
 interface Props {
   barbero: Barbero;
   onContinuar: () => void;
-  onCambiar: () => void;
 }
 
-export function PerfilBarbero({ barbero, onContinuar, onCambiar }: Props) {
+export function PerfilBarbero({ barbero, onContinuar }: Props) {
   const [perfil, setPerfil] = useState<PerfilBarberoInfo | null>(null);
   const [cargando, setCargando] = useState(true);
   const [mostrarForm, setMostrarForm] = useState(false);
@@ -49,6 +48,7 @@ export function PerfilBarbero({ barbero, onContinuar, onCambiar }: Props) {
       setCalificacion(0);
       setComentario("");
       setMostrarForm(false);
+      barberosApi.invalidarPerfil(barbero.id);
       await cargar();
     } finally {
       setEnviando(false);
@@ -57,14 +57,6 @@ export function PerfilBarbero({ barbero, onContinuar, onCambiar }: Props) {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={onCambiar}
-        className="text-xs font-semibold text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 mb-4 transition-colors"
-      >
-        ‹ Elegir otro barbero
-      </button>
-
       <div className="flex flex-col items-center text-center mb-6">
         <div className="w-24 h-24 rounded-full overflow-hidden bg-zinc-100 dark:bg-zinc-800 ring-4 ring-amber-100 dark:ring-amber-900/30 mb-3">
           {barbero.fotoUrl ? (

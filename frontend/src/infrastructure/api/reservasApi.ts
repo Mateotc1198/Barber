@@ -1,13 +1,31 @@
 import { SlotDisponibilidad, Reserva, ReservaData } from "@/types/reserva";
 import { solicitar } from "./clienteApi";
 
+const cacheDisponibilidad = new Map<string, Promise<SlotDisponibilidad[]>>();
+
+function claveDisponibilidad(fecha: string, barberoId: string, servicioId?: string): string {
+  return `${fecha}|${barberoId}|${servicioId ?? ""}`;
+}
+
 export const reservasApi = {
-  disponibilidad: (fecha: string, barberoId: string, servicioId?: string): Promise<SlotDisponibilidad[]> =>
-    solicitar<SlotDisponibilidad[]>(
-      `/api/v1/reservas/disponibilidad?fecha=${fecha}&barberoId=${encodeURIComponent(barberoId)}${
-        servicioId ? `&servicioId=${encodeURIComponent(servicioId)}` : ""
-      }`
-    ),
+  disponibilidad: (fecha: string, barberoId: string, servicioId?: string): Promise<SlotDisponibilidad[]> => {
+    const clave = claveDisponibilidad(fecha, barberoId, servicioId);
+    let promesa = cacheDisponibilidad.get(clave);
+    if (!promesa) {
+      promesa = solicitar<SlotDisponibilidad[]>(
+        `/api/v1/reservas/disponibilidad?fecha=${fecha}&barberoId=${encodeURIComponent(barberoId)}${
+          servicioId ? `&servicioId=${encodeURIComponent(servicioId)}` : ""
+        }`
+      );
+      promesa.catch(() => cacheDisponibilidad.delete(clave));
+      cacheDisponibilidad.set(clave, promesa);
+    }
+    return promesa;
+  },
+
+  invalidarDisponibilidad: (fecha: string, barberoId: string, servicioId?: string): void => {
+    cacheDisponibilidad.delete(claveDisponibilidad(fecha, barberoId, servicioId));
+  },
 
   crear: (data: ReservaData): Promise<Reserva> =>
     solicitar<Reserva>("/api/v1/reservas", {

@@ -7,6 +7,7 @@ interface Props {
   horario: DiaHorario[];
   fechaSeleccionada: Date | null;
   onSeleccionar: (d: Date) => void;
+  onPrefetch?: (d: Date) => void;
 }
 
 const DIAS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
@@ -24,7 +25,7 @@ function diaHabilitado(horario: DiaHorario[], fecha: Date): boolean {
   return dia?.activo ?? false;
 }
 
-export function CalendarioBarbero({ horario, fechaSeleccionada, onSeleccionar }: Props) {
+export function CalendarioBarbero({ horario, fechaSeleccionada, onSeleccionar, onPrefetch }: Props) {
   const hoy = new Date();
   hoy.setHours(0, 0, 0, 0);
   const [mesActual, setMesActual] = useState(new Date(hoy.getFullYear(), hoy.getMonth(), 1));
@@ -84,6 +85,7 @@ export function CalendarioBarbero({ horario, fechaSeleccionada, onSeleccionar }:
               key={fechaISO(d)}
               type="button"
               disabled={!habilitado}
+              onPointerDown={() => habilitado && onPrefetch?.(d)}
               onClick={() => onSeleccionar(d)}
               className={`aspect-square rounded-xl text-sm font-semibold transition-colors ${
                 sel
