@@ -17,7 +17,9 @@ export function Hero() {
         style={{ transform: "scale(1.05)" }}
       />
       {/* Gradient: oscuro arriba y abajo, semi-transparente en el centro */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/30 to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-black/85" />
+      {/* Viñeta focal detrás del bloque de texto para reforzar contraste */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_50%_45%,rgba(0,0,0,0.5),transparent_70%)]" />
       {/* Textura sutil de patrón */}
       <div
         className="absolute inset-0 opacity-10"
@@ -32,7 +34,10 @@ export function Hero() {
         {/* Badge */}
         <div className="flex items-center justify-center gap-3 mb-6 animate-fade-in-up">
           <span className="barber-stripe" />
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase text-amber-300">
+          <p
+            className="text-xs font-semibold tracking-[0.25em] uppercase text-amber-300"
+            style={{ textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 2px 12px rgba(0,0,0,0.6)" }}
+          >
             {DESCRIPCION_HERO.subtitulo}
           </p>
           <span className="barber-stripe" />
@@ -44,12 +49,17 @@ export function Hero() {
         >
           {DESCRIPCION_HERO.titulo.split(",")[0]},
           <br />
-          <span className="gradient-text">{DESCRIPCION_HERO.titulo.split(",")[1]?.trim()}</span>
+          <span
+            className="gradient-text"
+            style={{ filter: "drop-shadow(0 2px 18px rgba(217,119,6,0.55))" }}
+          >
+            {DESCRIPCION_HERO.titulo.split(",")[1]?.trim()}
+          </span>
         </h1>
 
         <p
-          className="text-base sm:text-lg text-white/70 max-w-lg mx-auto mb-10 leading-relaxed animate-fade-in-up"
-          style={{ animationDelay: "0.2s" }}
+          className="text-base sm:text-lg text-white/90 max-w-lg mx-auto mb-10 leading-relaxed animate-fade-in-up"
+          style={{ animationDelay: "0.2s", textShadow: "0 1px 3px rgba(0,0,0,0.9), 0 4px 16px rgba(0,0,0,0.6)" }}
         >
           {DESCRIPCION_HERO.descripcion}
         </p>
@@ -81,6 +91,19 @@ export function Hero() {
         </Link>
 
       </div>
+
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="animate-scroll-bounce absolute bottom-16 sm:bottom-6 left-1/2 -translate-x-1/2 z-10 w-6 h-6 text-white/60"
+      >
+        <path d="M6 9l6 6 6-6" />
+      </svg>
     </section>
   );
 }

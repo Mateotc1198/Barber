@@ -35,3 +35,9 @@
   --background: var(--graphite-950);
   --foreground: #f4f4f5;
 }
+
+@media (max-width: 640px) {
+  :root {
+    --hero-height: clamp(440px, 72vh, 640px);
+  }
+}
