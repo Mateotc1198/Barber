@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ContactInfo, ContactInfoUpdate } from "@/types/contacto";
 import { contactoApi } from "@/infrastructure/api/contactoApi";
 import { imagenesApi } from "@/infrastructure/api/imagenesApi";
 import { REDES } from "@/components/contact/iconosRedes";
+import { CODIGOS_PAIS } from "@/constants/codigosPais";
+import { separarNumeroWhatsApp, combinarNumeroWhatsApp } from "@/utils/numeroWhatsApp";
+import { useToast } from "@/components/ui/ToastProvider";
 
 interface Props {
   inicial: ContactInfo | null;
@@ -13,6 +16,7 @@ interface Props {
 }
 
 export function FormularioContacto({ inicial, onActualizado }: Props) {
+  const { mostrar } = useToast();
   const [form, setForm] = useState<ContactInfoUpdate>({
     nombre: inicial?.nombre ?? "",
     fotoUrl: inicial?.fotoUrl ?? "",
@@ -28,10 +32,17 @@ export function FormularioContacto({ inicial, onActualizado }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [subiendo, setSubiendo] = useState(false);
   const [redActiva, setRedActiva] = useState<keyof ContactInfoUpdate | null>(null);
+  const numeroInicial = separarNumeroWhatsApp(inicial?.whatsapp ?? null);
+  const [codigoWhatsApp, setCodigoWhatsApp] = useState(numeroInicial.codigo);
+  const [numeroLocalWhatsApp, setNumeroLocalWhatsApp] = useState(numeroInicial.numeroLocal);
 
   function cambiar(campo: keyof ContactInfoUpdate, valor: string | null) {
     setForm((prev) => ({ ...prev, [campo]: valor }));
   }
+
+  useEffect(() => {
+    cambiar("whatsapp", combinarNumeroWhatsApp(codigoWhatsApp, numeroLocalWhatsApp));
+  }, [codigoWhatsApp, numeroLocalWhatsApp]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function subirFoto(archivo: File) {
     setSubiendo(true);
@@ -52,6 +63,7 @@ export function FormularioContacto({ inicial, onActualizado }: Props) {
     try {
       const resultado = await contactoApi.actualizar(form);
       onActualizado(resultado);
+      mostrar("Contacto actualizado");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al guardar");
     } finally {
@@ -115,10 +127,9 @@ export function FormularioContacto({ inicial, onActualizado }: Props) {
                 onClick={() => setRedActiva(activa ? null : clave)}
                 aria-label={red.label}
                 title={red.label}
-                className={`relative w-10 h-10 rounded-xl flex items-center justify-center text-white transition-all cursor-pointer ${
+                className={`relative w-10 h-10 rounded-xl flex items-center justify-center text-white transition-all cursor-pointer ${red.color} ${
                   activa ? "ring-2 ring-amber-500 ring-offset-2 ring-offset-white dark:ring-offset-zinc-900" : "hover:opacity-90"
                 }`}
-                style={{ background: "var(--accent)" }}
               >
                 {red.icon}
                 {valor && (
@@ -129,7 +140,37 @@ export function FormularioContacto({ inicial, onActualizado }: Props) {
           })}
         </div>
 
-        {redActiva && (
+        {redActiva === "whatsapp" && (
+          <div className="flex items-center gap-2 pt-1">
+            <select
+              value={codigoWhatsApp}
+              onChange={(e) => setCodigoWhatsApp(e.target.value)}
+              className="px-2 py-2 rounded-xl text-sm bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            >
+              {CODIGOS_PAIS.map((c) => (
+                <option key={c.codigo} value={c.codigo}>{c.nombre}</option>
+              ))}
+            </select>
+            <input
+              autoFocus
+              type="tel"
+              inputMode="numeric"
+              placeholder="Número sin código de país"
+              value={numeroLocalWhatsApp}
+              onChange={(e) => setNumeroLocalWhatsApp(e.target.value.replace(/\D/g, ""))}
+              className="flex-1 min-w-0 px-3 py-2 rounded-xl text-sm bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            />
+            <button
+              type="button"
+              onClick={() => setRedActiva(null)}
+              className="text-xs font-semibold text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 cursor-pointer flex-shrink-0"
+            >
+              Listo
+            </button>
+          </div>
+        )}
+
+        {redActiva && redActiva !== "whatsapp" && (
           <div className="flex items-center gap-2 pt-1">
             <input
               autoFocus
