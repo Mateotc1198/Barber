@@ -82,7 +82,7 @@ export default async function ContactoPage() {
           )}
         </div>
       </main>
-      <PieDePagina />
+      <PieDePagina numeroWhatsApp={info.whatsapp} />
     </>
   );
 }

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Encabezado } from "@/components/common/Encabezado";
 import { PieDePagina } from "@/components/common/PieDePagina";
 import { Hero } from "@/components/common/Hero";
-import { BotonTema } from "@/components/ui/BotonTema";
 import { BotonWhatsApp } from "@/components/common/BotonWhatsApp";
 import { SeccionCaracteristicas } from "@/components/common/SeccionCaracteristicas";
 import { SeccionCategorias } from "@/components/common/SeccionCategorias";
@@ -12,13 +11,15 @@ import { CarruselServicios } from "@/components/services/CarruselServicios";
 import { GrillaServicios } from "@/components/services/GrillaServicios";
 import { serviciosApi } from "@/infrastructure/api/serviciosApi";
 import { categoriasApi } from "@/infrastructure/api/categoriasApi";
+import { contactoApi } from "@/infrastructure/api/contactoApi";
 
 const MAX_CARRUSEL = 3;
 
 export default async function HomePage() {
-  const [servicios, categorias] = await Promise.all([
+  const [servicios, categorias, contacto] = await Promise.all([
     serviciosApi.listar().catch(() => []),
     categoriasApi.listar().catch(() => []),
+    contactoApi.obtener().catch(() => null),
   ]);
 
   const categoriasPorCarrusel = categorias.slice(0, MAX_CARRUSEL);
@@ -27,8 +28,7 @@ export default async function HomePage() {
   return (
     <>
       <Encabezado />
-      <BotonTema />
-      <BotonWhatsApp />
+      <BotonWhatsApp numero={contacto?.whatsapp} />
 
       <main>
         {/* 1. Hero */}
@@ -102,7 +102,7 @@ export default async function HomePage() {
         <SeccionCTA />
       </main>
 
-      <PieDePagina />
+      <PieDePagina numeroWhatsApp={contacto?.whatsapp} />
     </>
   );
 }

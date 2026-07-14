@@ -25,6 +25,16 @@ async function obtenerServicios() {
   return res.json();
 }
 
+async function obtenerContacto() {
+  try {
+    const res = await fetch(`${API_URL}/api/v1/contacto`, { next: { revalidate: 60 } });
+    if (!res.ok) return null;
+    return res.json() as Promise<{ whatsapp: string | null } | null>;
+  } catch {
+    return null;
+  }
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -68,7 +78,11 @@ export default async function ServicioPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [dto, todosDto] = await Promise.all([obtenerServicio(id), obtenerServicios()]);
+  const [dto, todosDto, contacto] = await Promise.all([
+    obtenerServicio(id),
+    obtenerServicios(),
+    obtenerContacto(),
+  ]);
 
   if (!dto) notFound();
 
@@ -83,7 +97,7 @@ export default async function ServicioPage({
       <Encabezado />
       <BotonTema />
       <VistaServicio servicio={servicio} relacionados={relacionados} />
-      <PieDePagina />
+      <PieDePagina numeroWhatsApp={contacto?.whatsapp} />
     </>
   );
 }

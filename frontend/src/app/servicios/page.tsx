@@ -5,11 +5,13 @@ import { BotonTema } from "@/components/ui/BotonTema";
 import { CatalogoCliente } from "@/components/catalog/CatalogoCliente";
 import { serviciosApi } from "@/infrastructure/api/serviciosApi";
 import { categoriasApi } from "@/infrastructure/api/categoriasApi";
+import { contactoApi } from "@/infrastructure/api/contactoApi";
 
 export default async function ServiciosPage() {
-  const [servicios, categorias] = await Promise.all([
+  const [servicios, categorias, contacto] = await Promise.all([
     serviciosApi.listar().catch(() => []),
     categoriasApi.listar().catch(() => []),
+    contactoApi.obtener().catch(() => null),
   ]);
 
   return (
@@ -23,7 +25,7 @@ export default async function ServiciosPage() {
           </Suspense>
         </div>
       </main>
-      <PieDePagina />
+      <PieDePagina numeroWhatsApp={contacto?.whatsapp} />
     </>
   );
 }
