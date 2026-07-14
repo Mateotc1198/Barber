@@ -6,6 +6,7 @@ import { Servicio } from "@/types/servicio";
 import { Barbero } from "@/types/barbero";
 import { SlotDisponibilidad } from "@/types/reserva";
 import { reservasApi } from "@/infrastructure/api/reservasApi";
+import { barberosApi } from "@/infrastructure/api/barberosApi";
 import { PerfilBarbero } from "./PerfilBarbero";
 import { CalendarioBarbero } from "./CalendarioBarbero";
 
@@ -13,6 +14,8 @@ interface Props {
   servicio?: Servicio;
   barberos: Barbero[];
 }
+
+const REDIRECCION_MS = 8000;
 
 const DIAS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
 const MESES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
@@ -71,6 +74,12 @@ export function PaginaReservar({ servicio, barberos }: Props) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    barberos.filter((b) => b.activo).forEach((b) => {
+      barberosApi.obtenerPerfil(b.id).catch(() => {});
+    });
+  }, [barberos]);
+
+  useEffect(() => {
     if (!fechaSeleccionada || !barberoSeleccionado) return;
     setCargandoSlots(true);
     setSlots([]);
@@ -96,6 +105,7 @@ export function PaginaReservar({ servicio, barberos }: Props) {
         nombre: nombre.trim(),
         telefono: telefono.trim(),
       });
+      reservasApi.invalidarDisponibilidad(fechaISO(fechaSeleccionada), barberoSeleccionado.id, servicio?.id);
       setPaso("confirmado");
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Error al crear la reserva");
@@ -106,7 +116,7 @@ export function PaginaReservar({ servicio, barberos }: Props) {
 
   useEffect(() => {
     if (paso !== "confirmado") return;
-    const t = setTimeout(() => router.push("/"), 2000);
+    const t = setTimeout(() => router.push("/"), REDIRECCION_MS);
     return () => clearTimeout(t);
   }, [paso, router]);
 
@@ -135,27 +145,44 @@ export function PaginaReservar({ servicio, barberos }: Props) {
   if (paso === "confirmado" && fechaSeleccionada && slotSeleccionado && barberoSeleccionado) {
     const [anio, mes, dia] = fechaISO(fechaSeleccionada).split("-");
     return (
-      <div className="text-center py-12 animate-step-in">
-        <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-7 h-7 text-green-600 dark:text-green-400">
+      <div className="text-center py-10 animate-step-in">
+        <div className="animate-success-pop w-16 h-16 mx-auto mb-4 rounded-full bg-amber-50 dark:bg-amber-900/20 ring-4 ring-amber-100 dark:ring-amber-900/30 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-8 h-8 text-amber-600 dark:text-amber-400">
             <path d="M5 13l4 4L19 7" />
           </svg>
         </div>
         <h2 className="text-2xl font-black text-zinc-900 dark:text-zinc-100 mb-2">Cita confirmada</h2>
-        <div className="bg-zinc-50 dark:bg-zinc-800 rounded-2xl p-6 mt-6 mb-8 text-left space-y-2 text-sm">
-          {servicio && (
-            <p><span className="text-zinc-400">Servicio:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{servicio.nombre}</span></p>
-          )}
-          <p><span className="text-zinc-400">Barbero:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{barberoSeleccionado.nombre}</span></p>
-          <p><span className="text-zinc-400">Fecha:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{dia}/{mes}/{anio}</span></p>
-          <p><span className="text-zinc-400">Hora:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{formatHora(slotSeleccionado)}</span></p>
-          <p><span className="text-zinc-400">Nombre:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{nombre}</span></p>
-          <p><span className="text-zinc-400">Celular:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{telefono}</span></p>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-6">Te esperamos, {nombre.split(" ")[0]}.</p>
+
+        <div className="bg-white dark:bg-zinc-900 rounded-[var(--radius-card)] border border-zinc-100 dark:border-zinc-800 shadow-[var(--shadow-card)] dark:shadow-[var(--shadow-card-dark)] p-6 mb-8 text-left text-sm">
+          <div className="space-y-2">
+            {servicio && (
+              <p><span className="text-zinc-400">Servicio:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{servicio.nombre}</span></p>
+            )}
+            <p><span className="text-zinc-400">Barbero:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{barberoSeleccionado.nombre}</span></p>
+          </div>
+          <div className="my-4 border-t border-dashed border-zinc-200 dark:border-zinc-700" />
+          <div className="space-y-2">
+            <p><span className="text-zinc-400">Fecha:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{dia}/{mes}/{anio}</span></p>
+            <p><span className="text-zinc-400">Hora:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{formatHora(slotSeleccionado)}</span></p>
+            <p><span className="text-zinc-400">Nombre:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{nombre}</span></p>
+            <p><span className="text-zinc-400">Celular:</span> <span className="font-semibold text-zinc-900 dark:text-zinc-100">{telefono}</span></p>
+          </div>
         </div>
-        <p className="text-xs text-zinc-400 mb-3">Te llevaremos al inicio en unos segundos...</p>
-        <button onClick={() => router.push("/")} className="text-amber-600 dark:text-amber-400 font-semibold underline text-sm">
+
+        <button
+          onClick={() => router.push("/")}
+          className="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-white font-bold text-sm transition-colors"
+        >
           Ir al inicio ahora
         </button>
+        <div className="h-0.5 w-full rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden mt-4">
+          <div
+            key={paso}
+            className="h-full bg-amber-500/40 origin-left animate-redirect-drain"
+            style={{ animationDuration: `${REDIRECCION_MS}ms` }}
+          />
+        </div>
       </div>
     );
   }
@@ -165,34 +192,32 @@ export function PaginaReservar({ servicio, barberos }: Props) {
   return (
     <div className="max-w-md mx-auto">
       {/* Barra de progreso + volver */}
-      <div className="flex items-center gap-3 mb-6">
-        {indiceActual > 0 && (
-          <button
-            type="button"
-            onClick={volver}
-            aria-label="Volver"
-            className="w-9 h-9 flex-shrink-0 rounded-full flex items-center justify-center text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className="w-5 h-5">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
-        )}
-        <div className="flex-1">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[11px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
-              {PASOS[indiceActual].etiqueta}
-            </span>
-            <span className="text-[11px] text-zinc-400">
-              Paso {indiceActual + 1} de {PASOS.length}
-            </span>
-          </div>
-          <div className="h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
-            <div
-              className="h-full bg-amber-500 rounded-full transition-all duration-300"
-              style={{ width: `${((indiceActual + 1) / PASOS.length) * 100}%` }}
-            />
-          </div>
+      <div className="mb-6">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
+            {indiceActual > 0 && (
+              <button
+                type="button"
+                onClick={volver}
+                aria-label="Volver"
+                className="-ml-1 p-1 text-zinc-400 hover:text-amber-600 dark:hover:text-amber-400 transition-colors"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="w-3 h-3">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+            )}
+            {PASOS[indiceActual].etiqueta}
+          </span>
+          <span className="text-[11px] text-zinc-400">
+            Paso {indiceActual + 1} de {PASOS.length}
+          </span>
+        </div>
+        <div className="h-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+          <div
+            className="h-full bg-amber-500 rounded-full transition-all duration-300"
+            style={{ width: `${((indiceActual + 1) / PASOS.length) * 100}%` }}
+          />
         </div>
       </div>
 
@@ -231,7 +256,6 @@ export function PaginaReservar({ servicio, barberos }: Props) {
           <PerfilBarbero
             barbero={barberoSeleccionado}
             onContinuar={() => setPaso("fecha")}
-            onCambiar={cambiarBarbero}
           />
         )}
 
@@ -246,6 +270,11 @@ export function PaginaReservar({ servicio, barberos }: Props) {
               onSeleccionar={(d) => {
                 setFechaSeleccionada(d);
                 setPaso("hora");
+              }}
+              onPrefetch={(d) => {
+                reservasApi
+                  .disponibilidad(fechaISO(d), barberoSeleccionado.id, servicio?.id)
+                  .catch(() => {});
               }}
             />
           </div>

@@ -58,6 +58,16 @@ body {
   to { opacity: 1; transform: translateX(0); }
 }
 
+@keyframes successPop {
+  from { opacity: 0; transform: scale(0.75); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes redirectDrain {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
 .animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-float { animation: float 3s infinite ease-in-out; }
 .animate-backdrop-in { animation: backdropFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
@@ -65,6 +75,8 @@ body {
 .animate-scroll-bounce { animation: scrollBounce 1.5s ease-in-out infinite; }
 .animate-count-up { animation: countUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-step-in { animation: stepIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-success-pop { animation: successPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-redirect-drain { animation: redirectDrain linear forwards; }
 
 .gradient-text {
   background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
@@ -84,6 +96,12 @@ body {
     #f4f4f5 4px 8px,
     #d97706 8px 12px
   );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll-bounce { animation: none; }
+  .animate-success-pop { animation: none; }
+  .animate-redirect-drain { animation: none; }
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
