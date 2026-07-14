@@ -4,8 +4,13 @@ import { useEffect, useState } from "react";
 import { IconoWhatsApp } from "@/components/ui/IconoWhatsApp";
 import { NUMERO_WHATSAPP, NOMBRE_BARBERIA } from "@/constants/barberia";
 
-export function BotonWhatsApp() {
+interface Props {
+  numero?: string | null;
+}
+
+export function BotonWhatsApp({ numero }: Props = {}) {
   const [elevar, setElevar] = useState(false);
+  const numeroFinal = numero || NUMERO_WHATSAPP;
 
   useEffect(() => {
     const onScroll = () => {
@@ -22,7 +27,7 @@ export function BotonWhatsApp() {
 
   return (
     <a
-      href={`https://wa.me/${NUMERO_WHATSAPP}?text=${mensaje}`}
+      href={`https://wa.me/${numeroFinal}?text=${mensaje}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"
